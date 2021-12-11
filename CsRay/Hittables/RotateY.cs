@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CsRay.Hitables
+namespace CsRay.Hittables
 {
     public class RotateY : Hittable
     {
@@ -37,8 +37,6 @@ namespace CsRay.Hitables
                         var newx = _cosTheta * x + _sinTheta * z;
                         var newz = -_sinTheta * x + _cosTheta * z;
 
-                        var tester = new Vec3(newx, y, newz);
-
                         minX = Math.Min(minX, newx);
                         maxX = Math.Max(maxX, newx);
                         minY = Math.Min(minY, y);
@@ -52,7 +50,7 @@ namespace CsRay.Hitables
             _bbox = new Aabb(new Vec3(minX, minY, minZ), new Vec3(maxX, maxY, maxZ));
         }
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax, HitRecord rec)
+        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
         {
             var originX = _cosTheta * ray.Origin.X - _sinTheta * ray.Origin.Z;
             var originY = ray.Origin.Y;
@@ -64,9 +62,8 @@ namespace CsRay.Hitables
 
             var rotatedR = new Ray(new Vec3(originX, originY, originZ), new Vec3(directionX, directionY, directionZ), ray.Time);
 
-            var hr = _ptr.Hit(rotatedR, tMin, tMax, rec);
-            if (hr == null)
-                return null;
+            if (!_ptr.Hit(rotatedR, tMin, tMax, ref rec))
+                return false;
 
             var pX = _cosTheta * rec.Position.X + _sinTheta * rec.Position.Z;
             var pY = rec.Position.Y;
@@ -76,9 +73,10 @@ namespace CsRay.Hitables
             var normalY = rec.Normal.Y;
             var normalZ = -_sinTheta * rec.Normal.X + _cosTheta * rec.Normal.Z;
 
-            hr = new HitRecord(rec.T, new Vec3(pX, pY, pZ), rec.Normal, rec.Material);
-            hr.SetFaceNormal(rotatedR, new Vec3(normalX, normalY, normalZ));
-            return hr;
+            rec.SetPosition(new Vec3(pX, pY, pZ));
+            rec.SetFaceNormal(rotatedR, new Vec3(normalX, normalY, normalZ));
+
+            return true;
         }
 
         public override Aabb BoundingBox(double t0, double t1) => _bbox;

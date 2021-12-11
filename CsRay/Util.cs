@@ -33,6 +33,8 @@ namespace CsRay
 
         public static double Rand() => Random.NextDouble();
 
+        public static double Rand(double min, double max) => min + Random.NextDouble() * (max - min);
+
         public static int RandInt() => Random.Next();
 
         /// <summary>
@@ -79,6 +81,51 @@ namespace CsRay
             var tmp = (n1 - n2) / (n1 + n2);
             var r0 = tmp * tmp;
             return r0 + (1.0 - r0) * Math.Pow(1.0 - cosine, 5.0);
+        }
+
+        public static Rgb RandomRgb(double min, double max)
+        {
+            var r = Rand(min, max);
+            var g = Rand(min, max);
+            var b = Rand(min, max);
+            return new Rgb(r, g, b);
+        }
+        public static Rgb RandomRgb() => RandomRgb(0, 1);
+
+        public static Rgb RandomSaturatedRgb(double s, double v)
+        {
+            var min = (1 - s) * v;
+            var range = v - min;
+            var h6 = Rand() * 6;
+            if (h6 < 1)
+            {
+                var g = h6 * range + min;
+                return new Rgb(v, g, min);
+            }
+            if (h6 < 2)
+            {
+                var r = (2 - h6) * range + min;
+                return new Rgb(r, v, min);
+            }
+            if (h6 < 3)
+            {
+                var b = (h6 - 2) * range + min;
+                return new Rgb(min, v, b);
+            }
+            if (h6 < 4)
+            {
+                var g = (4 - h6) * range + min;
+                return new Rgb(min, g, v);
+            }
+            if (h6 < 5)
+            {
+                var r = (h6 - 4) * range + min;
+                return new Rgb(r, min, v);
+            }
+            {
+                var b = (6 - h6) * range + min;
+                return new Rgb(v, min, b);
+            }
         }
     }
 }

@@ -17,10 +17,10 @@ namespace CsRay
 
         const int _pointCount = 256;
 
-        Vec3[] _ranvec;
-        int[] _permX;
-        int[] _permY;
-        int[] _permZ;
+        readonly Vec3[] _ranvec;
+        readonly int[] _permX;
+        readonly int[] _permY;
+        readonly int[] _permZ;
 
         public Perlin()
         {

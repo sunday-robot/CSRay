@@ -23,5 +23,10 @@ namespace CsRay
             else
                 return _even.Value(u, v, p);
         }
+
+        public override string ToString()
+        {
+            return $"CheckerTexture({_even}, {_odd})";
+        }
     }
 }

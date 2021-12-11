@@ -17,38 +17,70 @@ namespace CsRay
 
         public bool Hit(Ray ray, double tMin, double tMax)
         {
-            var (xMin, xMax) = HitSub(Min.X, Max.X, ray.Origin.X, ray.Direction.X, tMin, tMax);
-            if (xMax <= xMin)
+#if false
+            return HitSub(Min.X, Max.X, ray.Origin.X, ray.Direction.X, ref tMin, ref tMax)
+                && HitSub(Min.Y, Max.Y, ray.Origin.X, ray.Direction.Y, ref tMin, ref tMax)
+                && HitSub(Min.Z, Max.Z, ray.Origin.Z, ray.Direction.Z, ref tMin, ref tMax);
+#else
+            double t;
+
+            t = Math.Min((Min.X - ray.Origin.X) / ray.Direction.X,
+                           (Max.X - ray.Origin.X) / ray.Direction.X);
+            tMin = Math.Max(t, tMin);
+            t = Math.Max((Min.X - ray.Origin.X) / ray.Direction.X,
+                           (Max.X - ray.Origin.X) / ray.Direction.X);
+            tMax = Math.Min(t, tMax);
+            if (tMax <= tMin)
                 return false;
-            var (yMin, yMax) = HitSub(Min.Y, Max.Y, ray.Origin.X, ray.Direction.Y, xMin, xMax);
-            if (yMax <= yMin)
+
+            t = Math.Min((Min.Y - ray.Origin.Y) / ray.Direction.Y,
+                           (Max.Y - ray.Origin.Y) / ray.Direction.Y);
+            tMin = Math.Max(t, tMin);
+            t = Math.Max((Min.Y - ray.Origin.Y) / ray.Direction.Y,
+                           (Max.Y - ray.Origin.Y) / ray.Direction.Y);
+            tMax = Math.Min(t, tMax);
+            if (tMax <= tMin)
                 return false;
-            var (zMin, zMax) = HitSub(Min.Z, Max.Z, ray.Origin.Z, ray.Direction.Z, yMin, yMax);
-            if (zMax <= zMin)
+
+            t = Math.Min((Min.Z - ray.Origin.Z) / ray.Direction.Z,
+                           (Max.Z - ray.Origin.Z) / ray.Direction.Z);
+            tMin = Math.Max(t, tMin);
+            t = Math.Max((Min.Z - ray.Origin.Z) / ray.Direction.Z,
+                           (Max.Z - ray.Origin.Z) / ray.Direction.Z);
+            tMax = Math.Min(t, tMax);
+            if (tMax <= tMin)
                 return false;
             return true;
+#endif
         }
 
-        static (double, double) HitSub(double min, double max,
+#if false
+        static bool HitSub(double min, double max,
              double rayOrigin, double rayDirection,
-             double tMin, double tMax)
+             ref double tMin, ref double tMax)
         {
             var a = (min - rayOrigin) / rayDirection;
             var b = (max - rayOrigin) / rayDirection;
-            if (a > b)
-                (a, b) = (b, a);
-            return (Math.Max(a, tMin), Math.Min(b, tMax));
+            tMin = Math.Max(a, tMin);
+            tMax = Math.Min(b, tMax);
+            return tMin < tMax;
         }
+#endif
 
         public static Aabb SurroundingAabb(Aabb a, Aabb b)
         {
             var minX = Math.Min(a.Min.X, b.Min.X);
-            var maxX = Math.Min(a.Max.X, b.Max.X);
+            var maxX = Math.Max(a.Max.X, b.Max.X);
             var minY = Math.Min(a.Min.Y, b.Min.Y);
             var maxY = Math.Max(a.Max.Y, b.Max.Y);
-            var minZ = Math.Max(a.Min.Z, b.Min.Z);
+            var minZ = Math.Min(a.Min.Z, b.Min.Z);
             var maxZ = Math.Max(a.Max.Z, b.Max.Z);
             return new Aabb(new Vec3(minX, minY, minZ), new Vec3(maxX, maxY, maxZ));
+        }
+
+        public override string ToString()
+        {
+            return $"{Min}-{Max}";
         }
     }
 }

@@ -1,22 +1,25 @@
 ﻿using System;
 
-namespace CsRay.Hitables
+namespace CsRay.Hittables
 {
     public sealed class MovingSphere : Hittable
     {
-        /// <summary></summary>
+        /// <summary>t=0での位置</summary>
         readonly Vec3 _centerOrigin;
+
+        /// <summary>速度</summary>
         readonly Vec3 _v;
+
+        /// <summary>半径</summary>
         readonly double _radius;
+
         readonly Material _material;
 
-        public MovingSphere(
-            Vec3 center0, double time0, Vec3 center1, double time1, double radius, Material material)
+        public MovingSphere(Vec3 center0, double time0, Vec3 center1, double time1, double radius, Material material)
         {
             var dt = time1 - time0;
             _centerOrigin = (center0 * time1 - center1 * time0) / dt;
             _v = (center1 - center0) / dt;
-
             _radius = radius;
             _material = material;
         }
@@ -26,47 +29,51 @@ namespace CsRay.Hitables
             return _centerOrigin + _v * time;
         }
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax, HitRecord _)
+        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
         {
             var center = Center(ray.Time);
             var oc = ray.Origin - center;
             var a = ray.Direction.SquaredLength;
-            var b = oc.Dot(ray.Direction);
+            var halfB = oc.Dot(ray.Direction);
             var c = oc.SquaredLength - _radius * _radius;
-            var discriminant = b * b - a * c;
+            var discriminant = halfB * halfB - a * c;
             if (discriminant < 0)
-                return null;
+                return false;
             var d2 = Math.Sqrt(discriminant);
-            var t = (-b - d2) / a;
-            if (t > tMin && t < tMax)
+
+            // Find the nearest root that lies in the acceptable range.
+            var t = (-halfB - d2) / a;
+            if (t < tMin || tMax < t)
             {
-                var p = ray.PositionAt(t);
-                var normal = (p - center) / _radius;
-                return new HitRecord(t, p, normal, _material);
+                t = (-halfB + d2) / a;
+                if (t < tMin || tMax < t)
+                    return false;
             }
-            var t2 = (-b + d2) / a;
-            if (t2 > tMin && t2 < tMax)
-            {
-                var p = ray.PositionAt(t2);
-                var normal = (p - center) / _radius;
-                return new HitRecord(t2, p, normal, _material);
-            }
-            return null;
+
+            var p = ray.PositionAt(t);
+            var outwardNormal = (p - center) / _radius;
+
+            rec.SetT(t);
+            rec.SetPosition(p);
+            rec.SetFaceNormal(ray, outwardNormal);
+            rec.SetMaterial(_material);
+
+            return true;
         }
 
         public override Aabb BoundingBox(double t0, double t1)
         {
             var c0 = Center(t0);
             var c1 = Center(t1);
-            var (minX, maxX) = BoundingBoxSub(c0.X, c1.X);
-            var (minY, maxY) = BoundingBoxSub(c0.Y, c1.Y);
-            var (minZ, maxZ) = BoundingBoxSub(c0.Z, c1.Z);
-            return new Aabb(new Vec3(minX, minY, minZ), new Vec3(maxX, maxY, maxZ));
+            var v = new Vec3(_radius, _radius, _radius);
+            var box0 = new Aabb(c0 - v, c0 + v);
+            var box1 = new Aabb(c1 - v, c1 + v);
+            return Aabb.SurroundingAabb(box0, box1);
         }
 
-        (double, double) BoundingBoxSub(double c0, double c1)
+        public override string ToString()
         {
-            return (c0 < c1) ? (c0 - _radius, c1 + _radius) : (c1 - _radius, c0 + _radius);
+            return $"MovigSphere(c:{_centerOrigin}, r:{_radius}, m:{_material}, v:{_v})";
         }
     }
 }

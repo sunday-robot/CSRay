@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CsRay.Hitables
+namespace CsRay.Hittables
 {
     public sealed class Sphere : Hittable
     {
@@ -15,31 +15,37 @@ namespace CsRay.Hitables
             _material = material;
         }
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax, HitRecord _)
+        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
         {
             var oc = ray.Origin - _center;
             var a = ray.Direction.SquaredLength;
-            var b = oc.Dot(ray.Direction);
+            var halfB = oc.Dot(ray.Direction);
             var c = oc.SquaredLength - _radius * _radius;
-            var discriminant = b * b - a * c;
+
+            var discriminant = halfB * halfB - a * c;
             if (discriminant < 0)
-                return null;
+                return false;
+
             var d2 = Math.Sqrt(discriminant);
-            var t = (-b - d2) / a;
-            if (t > tMin && t < tMax)
+
+            // Find the nearest root that lies in the acceptable range.
+            var root = (-halfB - d2) / a;
+            if (root < tMin || tMax < root)
             {
-                var p = ray.PositionAt(t);
-                var normal = (p - _center) / _radius;
-                return new HitRecord(t, p, normal, _material);
+                root = (-halfB + d2) / a;
+                if (root < tMin || tMax < root)
+                    return false;
             }
-            var t2 = (-b + d2) / a;
-            if (t2 > tMin && t2 < tMax)
-            {
-                var p = ray.PositionAt(t2);
-                var normal = (p - _center) / _radius;
-                return new HitRecord(t2, p, normal, _material);
-            }
-            return null;
+
+            rec.SetT(root);
+            rec.SetPosition(ray.PositionAt(rec.T));
+            var outwardNormal = (rec.Position - _center) / _radius;
+            rec.SetFaceNormal(ray, outwardNormal);
+            var (u, v) = GetSphereUv(outwardNormal);
+            rec.SetUv(u, v);
+            rec.SetMaterial(_material);
+
+            return true;
         }
 
         public override Aabb BoundingBox(double t0, double t1)
@@ -47,6 +53,26 @@ namespace CsRay.Hitables
             var min = _center - new Vec3(_radius, _radius, _radius);
             var max = _center + new Vec3(_radius, _radius, _radius);
             return new Aabb(min, max);
+        }
+
+
+        static (double, double) GetSphereUv(Vec3 p)
+        {
+            // p: a given point on the sphere of radius one, centered at the origin.
+            // u: returned value [0,1] of angle around the Y axis from X=-1.
+            // v: returned value [0,1] of angle from Y=-1 to Y=+1.
+            //     <1 0 0> yields <0.50 0.50>       <-1  0  0> yields <0.00 0.50>
+            //     <0 1 0> yields <0.50 1.00>       < 0 -1  0> yields <0.50 0.00>
+            //     <0 0 1> yields <0.25 0.50>       < 0  0 -1> yields <0.75 0.50>
+            var theta = Math.Acos(-p.Y);
+            var phi = Math.Atan2(-p.Z, p.X) + Math.PI;
+            var u = phi / (2 * Math.PI);
+            var v = theta / Math.PI;
+            return (u, v);
+        }
+        public override string ToString()
+        {
+            return $"Sphere(c:{_center}, r:{_radius}, m:{_material})";
         }
     }
 }

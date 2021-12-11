@@ -15,16 +15,24 @@
 
         public Lambertian(Rgb rgb) : this(new SolidColor(rgb)) { }
 
-        public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
+        public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
+
+        public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
         {
-            var direction = rec.Normal + Util.RandomInUnitSphere();
+            var scatterDirection = rec.Normal + Util.RandomInUnitSphere();
 
             // Catch degenerate scatter direction
-            if (direction.NearZero())
-                direction = rec.Normal;
+            if (scatterDirection.NearZero())
+                scatterDirection = rec.Normal;
 
-            var scatteredRay = new Ray(rec.Position, direction, ray.Time);
-            return (_albedo.Value(rec.U, rec.V, rec.Position), scatteredRay);
+            scattered = new Ray(rec.Position, scatterDirection, ray.Time);
+            attenuation = _albedo.Value(rec.U, rec.V, rec.Position);
+            return true;
+        }
+
+        public override string ToString()
+        {
+            return $"Lambertian({_albedo})";
         }
     }
 }

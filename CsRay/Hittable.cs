@@ -2,7 +2,7 @@
 {
     public abstract class Hittable
     {
-        public abstract HitRecord Hit(Ray ray, double tMin, double tMax, HitRecord rec);
+        public abstract bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec);
 
         public abstract Aabb BoundingBox(double t0, double t1);
     }

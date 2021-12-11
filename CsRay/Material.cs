@@ -7,14 +7,11 @@ namespace CsRay
     /// </summary>
     public abstract class Material
     {
-        public Rgb Emitted(double u, double v, Vec3 p)
-        {
-            return new Rgb(0, 0, 0);
-        }
+        public abstract Rgb Emitted(double u, double v, Vec3 p);
 
         /// <param name="ray">レイ</param>
         /// <returns>衝突点で分散(？)されたレイ</returns>
-        public abstract (Rgb, Ray)? Scatter(Ray ray, HitRecord rec);
+        public abstract bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered);
 
         /// <param name="v">入射ベクトル</param>
         /// <param name="normal">法線ベクトル</param>

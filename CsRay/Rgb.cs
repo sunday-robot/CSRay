@@ -16,6 +16,8 @@ namespace CsRay
     /// </summary>
     public sealed class Rgb
     {
+        public static readonly Rgb Black = new Rgb(0, 0, 0);
+
         public double R { get; }
 
         public double G { get; }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CsRay
+﻿namespace CsRay
 {
     public class Translate : Hittable
     {
@@ -18,15 +12,14 @@ namespace CsRay
             _offset = displacement;
         }
 
-        public override HitRecord Hit(Ray r, double t_min, double t_max, HitRecord rec)
+        public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord rec)
         {
             var movedR = new Ray(r.Origin - _offset, r.Direction, r.Time);
-            var hr = _ptr.Hit(movedR, t_min, t_max, rec);
-            if (hr == null)
-                return null;
-            hr = new HitRecord(rec.T, rec.Position + _offset, rec.Normal, rec.Material);
-            hr.SetFaceNormal(movedR, rec.Normal);
-            return hr;
+            if (!_ptr.Hit(movedR, tMin, tMax, ref rec))
+                return false;
+            rec.ShiftPosition(_offset);
+            rec.SetFaceNormal(movedR, rec.Normal);
+            return true;
         }
 
         public override Aabb BoundingBox(double time0, double time1)

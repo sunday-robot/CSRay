@@ -62,8 +62,10 @@ namespace CsRay
         {
             var rd = LensRadius * RandomInUnitDisk();
             var offset = U * rd.X + V * rd.Y;
+            var o = Origin + offset;
+            var d = LowerLeftCorner + s * Horizontal + t * Vertical - o;
             var time = Time0 + Rand() * (Time1 - Time0);
-            return new Ray(Origin + offset, LowerLeftCorner + s * Horizontal + t * Vertical - Origin - offset, time);
+            return new Ray(o, d, time);
         }
 
         /// <param name="lookFrom">視点</param>

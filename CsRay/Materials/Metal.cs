@@ -19,13 +19,19 @@
             _fuzz = fuzz;
         }
 
-        public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
+        public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
+
+        public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
         {
             var reflectionDirection = Reflect(ray.Direction.Unit, rec.Normal);
-            var scatteredRay = new Ray(rec.Position, reflectionDirection + _fuzz * Util.RandomInUnitSphere(), 0.0);
-            if (scatteredRay.Direction.Dot(rec.Normal) <= 0)
-                return null;
-            return (_albedo, scatteredRay);
+            scattered = new Ray(rec.Position, reflectionDirection + _fuzz * Util.RandomInUnitSphere(), ray.Time);
+            attenuation = _albedo;
+            return scattered.Direction.Dot(rec.Normal) > 0;
+        }
+
+        public override string ToString()
+        {
+            return $"Metal({_albedo}, fuzz:{_fuzz:0.000})";
         }
     }
 }

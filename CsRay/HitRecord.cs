@@ -2,7 +2,7 @@
 
 namespace CsRay
 {
-    /// <summary>RayとHitableの衝突情報</summary>
+    /// <summary>RayとHittableの衝突情報</summary>
     public sealed class HitRecord
     {
         /// <summary>衝突点</summary>
@@ -12,14 +12,14 @@ namespace CsRay
         public Vec3 Normal { get; private set; }
 
         /// <summary>衝突点の表面素材</summary>
-        public Material Material { get; }
+        public Material Material { get; private set; }
 
         /// <summary>レイ軸上の位置</summary>
-        public double T { get; }
+        public double T { get; private set; }
 
-        public double U { get; }
+        public double U { get; private set; }
 
-        public double V { get; }
+        public double V { get; private set; }
 
         public bool FrontFace { get; private set; }
 
@@ -39,9 +39,25 @@ namespace CsRay
 
         public void ShiftPosition(Vec3 p) => Position += p;
 
-        internal void SetPosition(Vec3 value)
+        public void SetPosition(Vec3 value)
         {
             Position = value;
+        }
+
+        public void SetT(double value)
+        {
+            T = value;
+        }
+
+        public void SetUv(double u, double v)
+        {
+            U = u;
+            V = v;
+        }
+
+        internal void SetMaterial(Material material)
+        {
+            Material = material;
         }
     }
 }

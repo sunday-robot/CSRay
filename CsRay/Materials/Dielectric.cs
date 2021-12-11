@@ -15,8 +15,11 @@ namespace CsRay.Materials
             _refractiveIndex = refractiveIndex;
         }
 
-        public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
+        public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
+
+        public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
         {
+            attenuation = new Rgb(1, 1, 1);
             var refractionRatio = rec.FrontFace ? (1.0 / _refractiveIndex) : _refractiveIndex;
 
             var unitDirection = ray.Direction.Unit;
@@ -31,9 +34,8 @@ namespace CsRay.Materials
             else
                 direction = Refract(unitDirection, rec.Normal, refractionRatio);
 
-            var scattered = new Ray(rec.Position, direction, ray.Time);
-            return (new Rgb(1, 1, 1), scattered);
-
+            scattered = new Ray(rec.Position, direction, ray.Time);
+            return true;
 #if false
 
             Vec3 outwardNormal;
@@ -65,8 +67,13 @@ namespace CsRay.Materials
         {
             // Use Schlick's approximation for reflectance.
             var r0 = (1 - refIdx) / (1 + refIdx);
-            r0 = r0 * r0;
-            return r0 + (1 - r0) * Math.Pow((1 - cosine), 5);
+            var r02 = r0 * r0;
+            return r0 + (1 - r02) * Math.Pow((1 - cosine), 5);
+        }
+
+        public override string ToString()
+        {
+            return $"Dielectric({this._refractiveIndex})";
         }
     }
 }

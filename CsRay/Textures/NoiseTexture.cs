@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CsRay
 {
     public sealed class NoiseTexture : Texture
     {
-        double _scale;
-        Perlin _noise = new Perlin();
+        readonly double _scale;
+        readonly Perlin _noise = new Perlin();
 
         public NoiseTexture(double scale)
         {

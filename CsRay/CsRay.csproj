@@ -45,29 +45,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aabb.cs" />
+    <Compile Include="Hittables\BvhNode.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="Hitables\RotateY.cs" />
+    <Compile Include="Hittables\RotateY.cs" />
+    <Compile Include="Materials\DebugMaterial.cs" />
+    <Compile Include="Materials\DiffuseLight.cs" />
+    <Compile Include="Materials\Isotropic.cs" />
     <Compile Include="Perlin.cs" />
     <Compile Include="Textures\CheckerTexture.cs" />
     <Compile Include="Materials\Dielectric.cs" />
-    <Compile Include="Hitable.cs" />
-    <Compile Include="HitableList.cs" />
+    <Compile Include="Hittable.cs" />
+    <Compile Include="Hittables\HittableList.cs" />
     <Compile Include="HitRecord.cs" />
     <Compile Include="Textures\ImageTexture.cs" />
     <Compile Include="Materials\Lambertian.cs" />
     <Compile Include="Main\Program.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="Materials\Metal.cs" />
-    <Compile Include="Hitables\MovingSphere.cs" />
+    <Compile Include="Hittables\MovingSphere.cs" />
     <Compile Include="Textures\NoiseTexture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="Renderer.cs" />
     <Compile Include="Rgb.cs" />
     <Compile Include="Textures\SolidColor.cs" />
-    <Compile Include="Hitables\Sphere.cs" />
+    <Compile Include="Hittables\Sphere.cs" />
     <Compile Include="Texture.cs" />
-    <Compile Include="Translate.cs" />
+    <Compile Include="Hittables\Translate.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Vec3.cs" />
   </ItemGroup>
