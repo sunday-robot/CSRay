@@ -25,7 +25,8 @@ namespace CsRay
             //var hittables = CreateSimpleScene2();
             //var hittables = CreateScene0();
             //var hittables = CreateScene1();
-            var hittables = CreateScene2();
+            //var hittables = CreateScene2();
+            var hittables = Create2PerlinSpheresScene();
             //var hittables = CreateRandomScene();
 #if true
             var world = new BvhNode(hittables, 0, 1);
@@ -257,5 +258,17 @@ namespace CsRay
 
             return hittables;
         }
+
+        static List<Hittable> Create2PerlinSpheresScene()
+        {
+            var hittables = new List<Hittable>();
+
+            var pertext = new NoiseTexture(4);
+            hittables.Add(new Sphere(new Vec3(0, -1000, 0), 1000, new Lambertian(pertext)));
+            hittables.Add(new Sphere(new Vec3(0, 2, 0), 2, new Lambertian(pertext)));
+
+            return hittables;
+        }
+
     }
 }

@@ -4,8 +4,8 @@ namespace CsRay
 {
     public sealed class NoiseTexture : Texture
     {
-        readonly double _scale;
         readonly Perlin _noise = new Perlin();
+        readonly double _scale;
 
         public NoiseTexture(double scale)
         {
