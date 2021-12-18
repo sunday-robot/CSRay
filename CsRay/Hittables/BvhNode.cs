@@ -27,7 +27,9 @@ namespace CsRay.Hittables
 
             if (object_span == 1)
             {
-                _left = _right = objects[start];
+                _left = objects[start];
+                _right = null;
+                _aabb = _left.BoundingBox(time0, time1);
             }
             else
             {
@@ -53,15 +55,11 @@ namespace CsRay.Hittables
                     _left = new BvhNode(objects, start, mid, time0, time1);
                     _right = new BvhNode(objects, mid, end, time0, time1);
                 }
+
+                var boxLeft = _left.BoundingBox(time0, time1);
+                var boxRight = _right.BoundingBox(time0, time1);
+                _aabb = Aabb.SurroundingAabb(boxLeft, boxRight);
             }
-
-            var boxLeft = _left.BoundingBox(time0, time1);
-            var boxRight = _right.BoundingBox(time0, time1);
-
-            if (boxLeft == null || boxRight == null)
-                Debug.WriteLine($"No bounding box in bvh_node constructor.");
-
-            _aabb = Aabb.SurroundingAabb(boxLeft, boxRight);
         }
 
         public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
@@ -78,11 +76,14 @@ namespace CsRay.Hittables
             var hitLeft = _left.Hit(ray, tMin, tMax, ref rec);
             if (hitLeft)
             {
-                _right.Hit(ray, tMin, rec.T, ref rec);
+                if (_right != null)
+                    _right.Hit(ray, tMin, rec.T, ref rec);
                 return true;
             }
             else
             {
+                if (_right == null)
+                    return false;
                 return _right.Hit(ray, tMin, tMax, ref rec);
             }
         }
@@ -135,7 +136,7 @@ namespace CsRay.Hittables
         public void Print(string indent = "")
         {
             Console.WriteLine($"{indent}aabb = {_aabb}");
-            if (_left == _right)
+            if (_right == null)
             {
                 Console.WriteLine($"{indent}{_left}");
             }
