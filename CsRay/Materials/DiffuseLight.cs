@@ -1,4 +1,6 @@
-﻿namespace CsRay.Materials
+﻿using CsRay.Textures;
+
+namespace CsRay.Materials
 {
     public sealed class DiffuseLight : Material
     {
@@ -8,6 +10,10 @@
         {
             _emit = texture;
         }
+
+        public DiffuseLight(Rgb rgb) : this(new SolidColor(rgb)) { }
+
+        public DiffuseLight(double r, double g, double b) : this(new Rgb(r, g, b)) { }
 
         public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
         {

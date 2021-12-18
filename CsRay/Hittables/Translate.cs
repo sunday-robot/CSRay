@@ -1,4 +1,4 @@
-﻿namespace CsRay
+﻿namespace CsRay.Hittables
 {
     public class Translate : Hittable
     {

@@ -1,17 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
-namespace CsRay
+namespace CsRay.Hittables
 {
     /// <summary>
     /// [Ray]と[Hittable]の衝突情報
     /// </summary>
     public sealed class HittableList : Hittable
     {
-        public List<Hittable> Objects { get; }
+        readonly Hittable[] _objects;
 
-        public HittableList(List<Hittable> list)
+        public HittableList(Hittable[] hittableArray)
         {
-            Objects = list;
+            _objects = new Hittable[hittableArray.Length];
+            hittableArray.CopyTo(_objects, 0);
+        }
+
+        public HittableList(List<Hittable> hittableList)
+        {
+            _objects = hittableList.ToArray();
         }
 
         public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord rec)
@@ -20,7 +27,7 @@ namespace CsRay
             var hitAnything = false;
             var closestSoFar = tMax;
 
-            foreach (var hittable in Objects)
+            foreach (var hittable in _objects)
             {
                 if (hittable.Hit(r, tMin, closestSoFar, ref tempRec))
                 {
@@ -34,12 +41,10 @@ namespace CsRay
 
         public override Aabb BoundingBox(double t0, double t1)
         {
-            if (Objects.Count == 0)
-                return null;
-            var box = Objects[0].BoundingBox(t0, t1);
-            for (var i = 1; i < Objects.Count; i++)
+            var box = _objects[0].BoundingBox(t0, t1);
+            for (var i = 1; i < _objects.Length; i++)
             {
-                box = Aabb.SurroundingAabb(box, Objects[i].BoundingBox(t0, t1));
+                box = Aabb.SurroundingAabb(box, _objects[i].BoundingBox(t0, t1));
             }
             return box;
         }

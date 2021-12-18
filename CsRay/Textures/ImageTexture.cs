@@ -1,5 +1,6 @@
-﻿namespace CsRay
+﻿namespace CsRay.Textures
 {
+    // .netではまともに画像ファイルを扱う方法がない。(WPF周りは完全におかしな思想(WEBページのような扱いしか考えていない?)OpenCVを使う以外にない？）
 #if false
     public sealed class ImageTexture : Texture
     {

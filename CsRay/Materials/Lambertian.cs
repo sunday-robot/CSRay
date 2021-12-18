@@ -1,4 +1,6 @@
-﻿namespace CsRay.Materials
+﻿using CsRay.Textures;
+
+namespace CsRay.Materials
 {
     /// <summary>
     /// 完全な拡散反射をする材質(入射角とは無関係に反射する)
@@ -14,6 +16,8 @@
         }
 
         public Lambertian(Rgb rgb) : this(new SolidColor(rgb)) { }
+
+        public Lambertian(double r, double g, double b) : this(new Rgb(r, g, b)) { }
 
         public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
 

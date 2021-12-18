@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CsRay
+namespace CsRay.Hittables
 {
     public sealed class BvhNode : Hittable
     {
@@ -19,6 +19,11 @@ namespace CsRay
         public BvhNode(List<Hittable> objects, int start, int end, double time0, double time1)
         {
             var object_span = end - start;
+
+            if (object_span <= 0)
+            {
+                throw new ArgumentException("empty list.");
+            }
 
             if (object_span == 1)
             {

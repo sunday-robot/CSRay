@@ -57,9 +57,9 @@ namespace CsRay
                 {
                     var p = pixels[x + y * width];
                     var p2 = new Vec3(Math.Sqrt(p.R), Math.Sqrt(p.G), Math.Sqrt(p.B));
-                    var r = (int)(255 * p2.X + 0.5);
-                    var g = (int)(255 * p2.Y + 0.5);
-                    var b = (int)(255 * p2.Z + 0.5);
+                    var r = Math.Min((int)(255 * p2.X + 0.5), 255);
+                    var g = Math.Min((int)(255 * p2.Y + 0.5), 255);
+                    var b = Math.Min((int)(255 * p2.Z + 0.5), 255);
                     ps.WriteLine($"{r} {g} {b}");
                 }
             }

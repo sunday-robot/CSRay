@@ -31,6 +31,16 @@ namespace CsRay
             Material = material;
         }
 
+        public void SetNormal(Vec3 value)
+        {
+            Normal = value;
+        }
+
+        public void SetFrontFace(bool value)
+        {
+            FrontFace = value;
+        }
+
         public void SetFaceNormal(Ray r, Vec3 outwardNormal)
         {
             FrontFace = r.Direction.Dot(outwardNormal) < 0;

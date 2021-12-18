@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,24 @@
     <Compile Include="Hittables\BvhNode.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Hittables\RotateY.cs" />
+    <Compile Include="Hittables\XyRect.cs" />
+    <Compile Include="Hittables\XzRect.cs" />
+    <Compile Include="Hittables\YzRect.cs" />
+    <Compile Include="Hittables\Box.cs" />
+    <Compile Include="Hittables\ConstantMedium.cs" />
+    <Compile Include="Materials\Lambertian.cs" />
+    <Compile Include="Main\Create2PerlinSpheresScene.cs" />
+    <Compile Include="Main\CreateCornellBox.cs" />
+    <Compile Include="Main\CreateCornellSmoke.cs" />
+    <Compile Include="Main\CreateFinalScene.cs" />
+    <Compile Include="Main\CreateRandomScene.cs" />
+    <Compile Include="Main\CreateScene0.cs" />
+    <Compile Include="Main\CreateScene1.cs" />
+    <Compile Include="Main\CreateScene2.cs" />
+    <Compile Include="Main\CreateSimpleLight.cs" />
+    <Compile Include="Main\CreateSimpleScene.cs" />
+    <Compile Include="Main\CreateSimpleScene2.cs" />
+    <Compile Include="Main\CreateSingleBoxScene.cs" />
     <Compile Include="Materials\DebugMaterial.cs" />
     <Compile Include="Materials\DiffuseLight.cs" />
     <Compile Include="Materials\Isotropic.cs" />
@@ -58,7 +77,6 @@
     <Compile Include="Hittables\HittableList.cs" />
     <Compile Include="HitRecord.cs" />
     <Compile Include="Textures\ImageTexture.cs" />
-    <Compile Include="Materials\Lambertian.cs" />
     <Compile Include="Main\Program.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="Materials\Metal.cs" />

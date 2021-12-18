@@ -1,15 +1,17 @@
-﻿namespace CsRay.Materials
+﻿using CsRay.Textures;
+
+namespace CsRay.Materials
 {
     public sealed class Isotropic : Material
     {
         readonly Texture _albedo;
 
-        public Isotropic(Rgb rgb) : this(new SolidColor(rgb)) { }
-
         public Isotropic(Texture texture)
         {
             _albedo = texture;
         }
+
+        public Isotropic(Rgb rgb) : this(new SolidColor(rgb)) { }
 
         public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CsRay
+namespace CsRay.Textures
 {
     public sealed class NoiseTexture : Texture
     {

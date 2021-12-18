@@ -1,4 +1,4 @@
-﻿namespace CsRay
+﻿namespace CsRay.Textures
 {
     public sealed class SolidColor : Texture
     {

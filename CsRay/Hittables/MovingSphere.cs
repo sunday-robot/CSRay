@@ -15,7 +15,7 @@ namespace CsRay.Hittables
 
         readonly Material _material;
 
-        public MovingSphere(Vec3 center0, double time0, Vec3 center1, double time1, double radius, Material material)
+        public MovingSphere(Vec3 center0, Vec3 center1, double time0, double time1, double radius, Material material)
         {
             var dt = time1 - time0;
             _centerOrigin = (center0 * time1 - center1 * time0) / dt;
