@@ -54,6 +54,7 @@
     <Compile Include="Hittables\YzRect.cs" />
     <Compile Include="Hittables\Box.cs" />
     <Compile Include="Hittables\ConstantMedium.cs" />
+    <Compile Include="Main\CreateXyRectScene.cs" />
     <Compile Include="Materials\Lambertian.cs" />
     <Compile Include="Main\Create2PerlinSpheresScene.cs" />
     <Compile Include="Main\CreateCornellBox.cs" />

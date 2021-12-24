@@ -33,7 +33,8 @@ namespace CsRay.Hittables
             if (!_boundary.Hit(ray, rec1.T + 0.0001, double.PositiveInfinity, ref rec2))
                 return false;
 
-            if (debugging) Console.WriteLine($"\nt_min={rec1.T}, tMax={rec2.T}");
+            if (debugging)
+                Console.WriteLine($"\nt_min={rec1.T}, tMax={rec2.T}");
 
             if (rec1.T < tMin)
                 rec1.SetT(tMin);

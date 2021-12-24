@@ -9,6 +9,8 @@
         readonly double _k;
         readonly Material _mp;
 
+        readonly Aabb _aabb;
+
         public YzRect(double y0, double z0, double y1, double z1, double k, Material materal)
         {
             _y0 = y0;
@@ -17,14 +19,13 @@
             _z1 = z1;
             _k = k;
             _mp = materal;
-        }
 
-        public override Aabb BoundingBox(double t0, double t1)
-        {
             // The bounding box must have non-zero width in each dimension, so pad the X
             // dimension a small amount.
-            return new Aabb(new Vec3(_k - 0.0001, _y0, _z0), new Vec3(_k + 0.0001, _y1, _z1));
+            _aabb = new Aabb(new Vec3(k - 0.0001, y0, z0), new Vec3(k + 0.0001, y1, z1));
         }
+
+        public override Aabb BoundingBox(double t0, double t1) => _aabb;
 
         public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
         {

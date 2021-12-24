@@ -6,24 +6,13 @@ namespace CsRay.Main
 {
     public partial class Program
     {
-        static (List<Hittable>, Camera, Rgb) CreateSingleBoxScene()
+        static (List<Hittable>, Camera, Rgb) CreateXyRectScene()
         {
             var objects = new List<Hittable>();
             {
                 var red = new Lambertian(0.8, 0.2, 0.2);
-                var box = new Box(new Vec3(-1, -1, -1), new Vec3(1, 1, 1), red);
-                objects.Add(box);
-
-#if false
-                {
-                    var blue = new Lambertian(0.2, 0.2, 0.8);
-                    var sphere1 = new Sphere(new Vec3(-2, 0, 0), 1, blue);
-                    objects.Add(sphere1);
-
-                    var sphere2 = new Sphere(new Vec3(2, 0, 0), 1, blue);
-                    objects.Add(sphere2);
-                }
-#endif
+                var rect = new XyRect(-1, -1, 1, 1, 0, red);
+                objects.Add(rect);
             }
 
             Camera camera;
@@ -38,12 +27,7 @@ namespace CsRay.Main
                 camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0.0, 1.0, 0.0), vFov, 16.0 / 9, aperture, distanceToFocus, time0, time1);
             }
 
-#if false
             return (objects, camera, null);
-#else
-            objects.Add(new Sphere(new Vec3(0, 5, 5), 1, new DiffuseLight(new Rgb(10, 10, 10))));
-            return (objects, camera, Rgb.Black);
-#endif
         }
     }
 }

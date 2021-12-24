@@ -7,6 +7,8 @@ namespace CsRay.Hittables
 {
     public sealed class BvhNode : Hittable
     {
+        public static bool DebugMode { get; set; } = false;
+
         readonly Hittable _left;
         readonly Hittable _right;
         readonly Aabb _aabb;
@@ -16,7 +18,7 @@ namespace CsRay.Hittables
             this(new List<Hittable>(list), 0, list.Count, time0, time1)
         { }
 
-        public BvhNode(List<Hittable> objects, int start, int end, double time0, double time1)
+        BvhNode(List<Hittable> objects, int start, int end, double time0, double time1)
         {
             var object_span = end - start;
 
@@ -66,15 +68,17 @@ namespace CsRay.Hittables
         {
             if (!_aabb.Hit(ray, tMin, tMax))
                 return false;
-#if false
-            if (!(_left is BvhNode) && !(_right is BvhNode))
+
+            if (DebugMode)
             {
-                rec.SetMaterial(_debugMaterial);
-                return true;
+                if (!(_left is BvhNode) && !(_right is BvhNode))
+                {
+                    rec.SetMaterial(_debugMaterial);
+                    return true;
+                }
             }
-#endif
-            var hitLeft = _left.Hit(ray, tMin, tMax, ref rec);
-            if (hitLeft)
+
+            if (_left.Hit(ray, tMin, tMax, ref rec))
             {
                 if (_right != null)
                     _right.Hit(ray, tMin, rec.T, ref rec);
