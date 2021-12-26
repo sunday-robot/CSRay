@@ -16,13 +16,13 @@ namespace CsRay
         /// <param name="v">入射ベクトル</param>
         /// <param name="normal">法線ベクトル</param>
         /// <returns>反射ベクトル</returns>
-        public Vec3 Reflect(Vec3 v, Vec3 normal) => v - 2 * v.Dot(normal) * normal;
+        protected Vec3 Reflect(Vec3 v, Vec3 normal) => v - 2 * v.Dot(normal) * normal;
 
         /// <param name="v">入射ベクトル</param>
         /// <param name="normal">法線ベクトル</param>
         /// <param name="niOverNt">?</param>
         /// <returns>屈折ベクトル(屈折しない場合はnull)</returns>
-        public Vec3 Refract(Vec3 v, Vec3 normal, double niOverNt)
+        protected Vec3 Refract(Vec3 v, Vec3 normal, double niOverNt)
         {
             var uv = v.Unit;
             var dt = uv.Dot(normal);

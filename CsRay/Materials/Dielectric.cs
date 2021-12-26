@@ -20,6 +20,7 @@ namespace CsRay.Materials
         public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
         {
             attenuation = new Rgb(1, 1, 1);
+
             var refractionRatio = rec.FrontFace ? (1.0 / _refractiveIndex) : _refractiveIndex;
 
             var unitDirection = ray.Direction.Unit;
@@ -37,7 +38,6 @@ namespace CsRay.Materials
             scattered = new Ray(rec.Position, direction, ray.Time);
             return true;
 #if false
-
             Vec3 outwardNormal;
             double rri; // 相対屈折率(元の素材の屈折率/先の素材の屈折率)
             if (ray.Direction.Dot(rec.Normal) > 0)

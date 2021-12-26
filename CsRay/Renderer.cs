@@ -16,15 +16,16 @@ namespace CsRay
                 Console.WriteLine($"{y}/{height}");
                 for (var x = 0; x < width; x++)
                 {
-                    var col = new Rgb(0.0, 0.0, 0.0);
+                    var rgbSum = new Rgb(0, 0, 0);
                     for (var i = 0; i < sampleCount; i++)
                     {
                         var u = (x + Util.Rand()) / width;
                         var v = ((height - 1) - y + Util.Rand()) / height;
                         var r = camera.GetRay(u, v);
-                        col += RayColor(r, background, world, _maxDepth);
+                        var rgb = Color(r, background, world, _maxDepth);
+                        rgbSum += rgb;
                     }
-                    pixels[y * width + x] = col / sampleCount;
+                    pixels[y * width + x] = rgbSum / sampleCount;
                 }
             }
             var t = (DateTime.Now - t0).TotalMilliseconds;
@@ -39,7 +40,7 @@ namespace CsRay
          * @param depth レイの残りの反射回数
          * @return 色
          */
-        static Rgb RayColor(Ray ray, Rgb background, Hittable world, int depth)
+        static Rgb Color(Ray ray, Rgb background, Hittable world, int depth)
         {
             // 反射回数が規定値に達した場合は(0,0,0)を返す
             if (depth <= 0)
@@ -66,7 +67,7 @@ namespace CsRay
             var emitted = rec.Material.Emitted(rec.U, rec.V, rec.Position);
             if (!rec.Material.Scatter(ray, ref rec, out var attenuation, out var scattered))
                 return emitted;
-            return emitted + attenuation * RayColor(scattered, background, world, depth - 1);
+            return emitted + attenuation * Color(scattered, background, world, depth - 1);
 #else
             return new Rgb(1, 0, 0);
 #endif

@@ -71,6 +71,6 @@ namespace CsRay.Hittables
             return true;
         }
 
-        public override Aabb BoundingBox(double t0, double t1) => _boundary.BoundingBox(t0, t1);
+        public override Aabb BoundingBox(double dt) => _boundary.BoundingBox(dt);
     }
 }

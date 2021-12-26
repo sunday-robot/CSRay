@@ -4,8 +4,12 @@ namespace CsRay.Hittables
 {
     public sealed class Sphere : Hittable
     {
+        /// <summary>位置</summary>
         readonly Vec3 _center;
+
+        /// <summary>半径</summary>
         readonly double _radius;
+
         readonly Material _material;
 
         public Sphere(Vec3 center, double radius, Material material)
@@ -37,24 +41,25 @@ namespace CsRay.Hittables
                     return false;
             }
 
-            rec.SetT(root);
-            rec.SetPosition(ray.PositionAt(rec.T));
-            var outwardNormal = (rec.Position - _center) / _radius;
-            rec.SetFaceNormal(ray, outwardNormal);
+            var p = ray.PositionAt(root);
+            var outwardNormal = (p - _center) / _radius;
             var (u, v) = GetSphereUv(outwardNormal);
+
+            rec.SetT(root);
+            rec.SetPosition(p);
+            rec.SetFaceNormal(ray, outwardNormal);
             rec.SetUv(u, v);
             rec.SetMaterial(_material);
 
             return true;
         }
 
-        public override Aabb BoundingBox(double t0, double t1)
+        public override Aabb BoundingBox(double dt)
         {
             var min = _center - new Vec3(_radius, _radius, _radius);
             var max = _center + new Vec3(_radius, _radius, _radius);
             return new Aabb(min, max);
         }
-
 
         static (double, double) GetSphereUv(Vec3 p)
         {
@@ -70,6 +75,7 @@ namespace CsRay.Hittables
             var v = theta / Math.PI;
             return (u, v);
         }
+
         public override string ToString()
         {
             return $"Sphere(c:{_center}, r:{_radius}, m:{_material})";

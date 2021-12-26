@@ -15,17 +15,18 @@ namespace CsRay.Main
 #if true
             var imageWidth = 1280;
             var imageHeight = 720;
-            var overSamplingCount = 10;
-            //var overSamplingCount = 100;
+            //var overSamplingCount = 10;
+            var overSamplingCount = 100;
 #else
             var imageWidth = 320;
             var imageHeight = 180;
-            var overSamplingCount = 10;
+            var overSamplingCount = 100;
 #endif
             //var (hittables, camera, background) = CreateXyRectScene();
-            var (hittables, camera, background) = CreateSingleBoxScene();
+            //var (hittables, camera, background) = CreateSingleBoxScene();
             //var (hittables, camera, background) = CreateCornellSmoke();
-            //var (hittables, camera, background) = CreateFinalScene();
+            var (hittables, camera, background) = CreateFinalScene();
+            //var (hittables, camera, background) = CreateFinalScene2();
             //var (hittables, camera, background) = CreateCornellBox();
             //var (hittables, camera, background) = CreateSimpleLight();
             //var (hittables, camera, background) = CreateSimpleScene();
@@ -35,14 +36,14 @@ namespace CsRay.Main
             //var (hittables, camera, background) = CreateScene2();
             //var (hittables, camera, background) = Create2PerlinSpheresScene();
             //var (hittables, camera, background) = CreateRandomScene();
-#if false
-            var world = new BvhNode(hittables, 0, 1);
+#if true
+            var world = new BvhNode(hittables, camera.ExposureTime);
             world.Print();
 #else
             var world = new HittableList(hittables);
 #endif
-#if true
-            BvhNode.DebugMode = true;
+#if false
+            BvhNode.DebugMode = false;
 #endif
             var pixels = Renderer.Render(world, camera, imageWidth, imageHeight, overSamplingCount, background);
 

@@ -21,8 +21,6 @@ namespace CsRay
         /// <returns>原点を中心とする半径1の球内のランダムな座標</returns>
         public static Vec3 RandomInUnitSphere()
         {
-            /**
-             */
             while (true)
             {
                 var p = 2.0 * new Vec3(Rand(), Rand(), Rand()) - new Vec3(1.0, 1.0, 1.0);
@@ -90,6 +88,7 @@ namespace CsRay
             var b = Rand(min, max);
             return new Rgb(r, g, b);
         }
+
         public static Rgb RandomRgb() => RandomRgb(0, 1);
 
         public static Rgb RandomSaturatedRgb(double s, double v)

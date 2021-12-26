@@ -20,7 +20,7 @@ namespace CsRay.Hittables
             _aabb = new Aabb(p0, p1);
         }
 
-        public override Aabb BoundingBox(double t0, double t1) => _aabb;
+        public override Aabb BoundingBox(double dt) => _aabb;
 
         public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec) => _sides.Hit(ray, tMin, tMax, ref rec);
     }

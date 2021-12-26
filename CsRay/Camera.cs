@@ -6,30 +6,25 @@ namespace CsRay
 {
     public sealed class Camera
     {
-        public Vec3 LowerLeftCorner { get; }
+        readonly Vec3 _lowerLeftCorner;
 
-        public Vec3 Horizontal { get; }
+        readonly Vec3 _horizontal;
 
-        public Vec3 Vertical { get; }
+        readonly Vec3 _vertical;
 
         /// <summary>視点</summary>
-        public Vec3 Origin { get; }
+        readonly Vec3 _origin;
 
         /// <summary>カメラのX軸方向(単位ベクトル)</summary>
-        public Vec3 U { get; }
+        readonly Vec3 _u;
 
         /// <summary>カメラのY軸方向(単位ベクトル)</summary>
-        public Vec3 V { get; }
-
-        /// <summary>カメラのZ軸方向(単位ベクトル)</summary>
-        public Vec3 W { get; }
+        readonly Vec3 _v;
 
         /// <summary>レンズのサイズ(ボケを決めるもので、小さいほどボケない。0なら全くボケない。)</summary>
-        public double LensRadius { get; }
+        readonly double _lensRadius;
 
-        public double Time0 { get; }
-
-        public double Time1 { get; }
+        public double ExposureTime { get; }
 
         /// <param name="lowerLeftCorner"></param>
         /// <param name="horizontal"></param>
@@ -39,32 +34,29 @@ namespace CsRay
         /// <param name="v">カメラのY軸方向(単位ベクトルであること)</param>
         /// <param name="w">カメラのZ軸方向(単位ベクトルであること)</param>
         /// <param name="lensRadious"></param>
-        /// <param name="time0"></param>
-        /// <param name="time1"></param>
+        /// <param name="exposureTime">露光時間</param>
         public Camera(Vec3 lowerLeftCorner, Vec3 horizontal, Vec3 vertical, Vec3 origin, Vec3 u, Vec3 v, Vec3 w,
-            double lensRadious, double time0, double time1)
+            double lensRadious, double exposureTime)
         {
-            LowerLeftCorner = lowerLeftCorner;
-            Vertical = vertical;
-            Horizontal = horizontal;
-            Origin = origin;
-            U = u;
-            V = v;
-            W = w;
-            LensRadius = lensRadious;
-            Time0 = time0;
-            Time1 = time1;
+            _lowerLeftCorner = lowerLeftCorner;
+            _vertical = vertical;
+            _horizontal = horizontal;
+            _origin = origin;
+            _u = u;
+            _v = v;
+            _lensRadius = lensRadious;
+            ExposureTime = exposureTime;
         }
 
         /// <param name="s">横方向の位置(0～1)</param>
         /// <param name="t">縦方向の位置(0～1)</param>
         public Ray GetRay(double s, double t)
         {
-            var rd = LensRadius * RandomInUnitDisk();
-            var offset = U * rd.X + V * rd.Y;
-            var o = Origin + offset;
-            var d = LowerLeftCorner + s * Horizontal + t * Vertical - o;
-            var time = Time0 + Rand() * (Time1 - Time0);
+            var rd = _lensRadius * RandomInUnitDisk();
+            var offset = _u * rd.X + _v * rd.Y;
+            var o = _origin + offset;
+            var d = _lowerLeftCorner + s * _horizontal + t * _vertical - o;
+            var time = (Rand() - 0.5) * ExposureTime;
             return new Ray(o, d, time);
         }
 
@@ -85,8 +77,7 @@ namespace CsRay
             double aspect,
             double aperture,
             double focusDist,
-            double time0,
-            double time1)
+            double exposureTime)
         {
             var theta = verticalFov * Math.PI / 180.0;
             var halfHeight = Math.Tan(theta / 2.0);
@@ -100,7 +91,7 @@ namespace CsRay
             var horizontal = 2 * halfWidth * focusDist * u;
             var vertical = 2 * halfHeight * focusDist * v;
             var lensRadius = aperture / 2.0;
-            return new Camera(lowerLeftCorner, horizontal, vertical, lookFrom, u, v, w, lensRadius, time0, time1);
+            return new Camera(lowerLeftCorner, horizontal, vertical, lookFrom, u, v, w, lensRadius, exposureTime);
         }
     }
 }

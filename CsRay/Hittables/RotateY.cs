@@ -15,7 +15,7 @@ namespace CsRay.Hittables
             var radians = angle / 180 * Math.PI;
             _sinTheta = Math.Sin(radians);
             _cosTheta = Math.Cos(radians);
-            _bbox = _ptr.BoundingBox(0, 1);
+            _bbox = _ptr.BoundingBox(0);
 
             var minX = double.PositiveInfinity;
             var minY = double.PositiveInfinity;
@@ -79,6 +79,6 @@ namespace CsRay.Hittables
             return true;
         }
 
-        public override Aabb BoundingBox(double t0, double t1) => _bbox;
+        public override Aabb BoundingBox(double dt) => _bbox;
     }
 }

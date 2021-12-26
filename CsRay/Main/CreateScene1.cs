@@ -28,9 +28,8 @@ namespace CsRay.Main
                         {
                             // ざらついたプラスチックのような素材
                             material = new Lambertian(new Rgb(Rand2(), Rand2(), Rand2()));
-                            var center2 = center + new Vec3(0, Rand() * 0.5, 0);
-                            hittables.Add(new MovingSphere(
-                                center, center2, 0, 1, 0.2, material));
+                            var velocity = new Vec3(0, Rand() * 0.5, 0);
+                            hittables.Add(new MovingSphere(center, 0.2, material, velocity));
                         }
                         else if (chooseMat < 0.95)
                         {
@@ -64,9 +63,8 @@ namespace CsRay.Main
                 var vFov = 20.0;
                 var aperture = 0.1;
                 var distanceToFocus = (lookAt - lookFrom).Length;
-                var time0 = 0.0;
-                var time1 = 1.0;
-                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0.0, 1.0, 0.0), vFov, 16.0 / 9, aperture, distanceToFocus, time0, time1);
+                var exposureTime = 1.0;
+                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0.0, 1.0, 0.0), vFov, 16.0 / 9, aperture, distanceToFocus, exposureTime);
             }
 
             return (hittables, camera, null);

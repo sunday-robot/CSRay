@@ -39,12 +39,12 @@ namespace CsRay.Hittables
             return hitAnything;
         }
 
-        public override Aabb BoundingBox(double t0, double t1)
+        public override Aabb BoundingBox(double dt)
         {
-            var box = _objects[0].BoundingBox(t0, t1);
+            var box = _objects[0].BoundingBox(dt);
             for (var i = 1; i < _objects.Length; i++)
             {
-                box = Aabb.SurroundingAabb(box, _objects[i].BoundingBox(t0, t1));
+                box = Aabb.SurroundingAabb(box, _objects[i].BoundingBox(dt));
             }
             return box;
         }

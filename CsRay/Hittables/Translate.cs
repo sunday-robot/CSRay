@@ -12,9 +12,9 @@
             _offset = displacement;
         }
 
-        public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord rec)
+        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
         {
-            var movedR = new Ray(r.Origin - _offset, r.Direction, r.Time);
+            var movedR = new Ray(ray.Origin - _offset, ray.Direction, ray.Time);
             if (!_ptr.Hit(movedR, tMin, tMax, ref rec))
                 return false;
             rec.ShiftPosition(_offset);
@@ -22,9 +22,9 @@
             return true;
         }
 
-        public override Aabb BoundingBox(double time0, double time1)
+        public override Aabb BoundingBox(double dt)
         {
-            var b = _ptr.BoundingBox(time0, time1);
+            var b = _ptr.BoundingBox(dt);
             if (b == null)
                 return null;
 

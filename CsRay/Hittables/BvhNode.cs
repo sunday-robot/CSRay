@@ -14,11 +14,11 @@ namespace CsRay.Hittables
         readonly Aabb _aabb;
         readonly DebugMaterial _debugMaterial = new DebugMaterial();
 
-        public BvhNode(List<Hittable> list, double time0, double time1) :
-            this(new List<Hittable>(list), 0, list.Count, time0, time1)
+        public BvhNode(List<Hittable> list, double dt) :
+            this(new List<Hittable>(list), 0, list.Count, dt)
         { }
 
-        BvhNode(List<Hittable> objects, int start, int end, double time0, double time1)
+        BvhNode(List<Hittable> objects, int start, int end, double dt)
         {
             var object_span = end - start;
 
@@ -31,7 +31,7 @@ namespace CsRay.Hittables
             {
                 _left = objects[start];
                 _right = null;
-                _aabb = _left.BoundingBox(time0, time1);
+                _aabb = _left.BoundingBox(dt);
             }
             else
             {
@@ -54,12 +54,12 @@ namespace CsRay.Hittables
                 {
                     objects.Sort(start, end - start, comparator);
                     var mid = start + object_span / 2;
-                    _left = new BvhNode(objects, start, mid, time0, time1);
-                    _right = new BvhNode(objects, mid, end, time0, time1);
+                    _left = new BvhNode(objects, start, mid, dt);
+                    _right = new BvhNode(objects, mid, end, dt);
                 }
 
-                var boxLeft = _left.BoundingBox(time0, time1);
-                var boxRight = _right.BoundingBox(time0, time1);
+                var boxLeft = _left.BoundingBox(dt);
+                var boxRight = _right.BoundingBox(dt);
                 _aabb = Aabb.SurroundingAabb(boxLeft, boxRight);
             }
         }
@@ -92,10 +92,7 @@ namespace CsRay.Hittables
             }
         }
 
-        public override Aabb BoundingBox(double t0, double t1)
-        {
-            return _aabb;
-        }
+        public override Aabb BoundingBox(double dt) => _aabb;
 
         static readonly IComparer<Hittable> _boxCompareX = Comparer<Hittable>.Create((a, b) =>
         {
@@ -131,8 +128,8 @@ namespace CsRay.Hittables
 
         static void BoxCompareSub(Hittable a, Hittable b, out Aabb boxA, out Aabb boxB)
         {
-            boxA = a.BoundingBox(0, 0);
-            boxB = b.BoundingBox(0, 0);
+            boxA = a.BoundingBox(0);
+            boxB = b.BoundingBox(0);
             if (boxA == null || boxB == null)
                 Debug.WriteLine($"No bounding box in bvh_node constructor.");
         }
