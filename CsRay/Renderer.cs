@@ -46,8 +46,8 @@ namespace CsRay
             if (depth <= 0)
                 return new Rgb(0, 0, 0);
 
-            var rec = new HitRecord(0, new Vec3(0, 0, 0), new Vec3(0, 0, 0), null);
-            if (!world.Hit(ray, _tMin, double.MaxValue, ref rec))
+            var rec = world.Hit(ray, _tMin, double.MaxValue);
+            if (rec == null)
             {
                 // どの物体ともヒットしない場合は、指定された背景色あるいは天球の色を返す
                 if (background == null)
@@ -59,15 +59,14 @@ namespace CsRay
                     return (1.0 - t) * v1 + t * v2;
                 }
                 else
-                {
                     return background;
-                }
             }
 #if true
             var emitted = rec.Material.Emitted(rec.U, rec.V, rec.Position);
-            if (!rec.Material.Scatter(ray, ref rec, out var attenuation, out var scattered))
+            var s = rec.Material.Scatter(ray, rec);
+            if (s == null)
                 return emitted;
-            return emitted + attenuation * Color(scattered, background, world, depth - 1);
+            return emitted + s.Value.Item1 * Color(s.Value.Item2, background, world, depth - 1);
 #else
             return new Rgb(1, 0, 0);
 #endif

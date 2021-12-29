@@ -7,7 +7,7 @@
         readonly double _y1;
         readonly double _z1;
         readonly double _k;
-        readonly Material _mp;
+        readonly Material _material;
 
         readonly Aabb _aabb;
 
@@ -18,7 +18,7 @@
             _y1 = y1;
             _z1 = z1;
             _k = k;
-            _mp = materal;
+            _material = materal;
 
             // The bounding box must have non-zero width in each dimension, so pad the X
             // dimension a small amount.
@@ -27,25 +27,24 @@
 
         public override Aabb BoundingBox(double dt) => _aabb;
 
-        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
+        public override HitRecord Hit(Ray ray, double tMin, double tMax)
         {
             var t = (_k - ray.Origin.X) / ray.Direction.X;
             if (t < tMin || t > tMax)
-                return false;
+                return null;
 
             var y = ray.Origin.Y + t * ray.Direction.Y;
             var z = ray.Origin.Z + t * ray.Direction.Z;
             if (y < _y0 || y > _y1 || z < _z0 || z > _z1)
-                return false;
+                return null;
 
-            rec.SetUv((y - _y0) / (_y1 - _y0), (z - _z0) / (_z1 - _z0));
-            rec.SetT(t);
+            var p = ray.PositionAt(t);
             var outwardNormal = new Vec3(1, 0, 0);
-            rec.SetFaceNormal(ray, outwardNormal);
-            rec.SetMaterial(_mp);
-            rec.SetPosition(ray.PositionAt(t));
-
-            return true;
+            var ff = ray.Direction.Dot(outwardNormal) < 0;
+            var n = ff ? outwardNormal : -outwardNormal;
+            var u = (y - _y0) / (_y1 - _y0);
+            var v = (z - _z0) / (_z1 - _z0);
+            return new HitRecord(t, p, n, _material, ff, u, v);
         }
     }
 }

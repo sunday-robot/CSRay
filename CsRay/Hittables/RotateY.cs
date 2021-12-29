@@ -50,7 +50,7 @@ namespace CsRay.Hittables
             _bbox = new Aabb(new Vec3(minX, minY, minZ), new Vec3(maxX, maxY, maxZ));
         }
 
-        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
+        public override HitRecord Hit(Ray ray, double tMin, double tMax)
         {
             var originX = _cosTheta * ray.Origin.X - _sinTheta * ray.Origin.Z;
             var originY = ray.Origin.Y;
@@ -62,21 +62,24 @@ namespace CsRay.Hittables
 
             var rotatedR = new Ray(new Vec3(originX, originY, originZ), new Vec3(directionX, directionY, directionZ), ray.Time);
 
-            if (!_ptr.Hit(rotatedR, tMin, tMax, ref rec))
-                return false;
+            var tmpRec = _ptr.Hit(rotatedR, tMin, tMax);
+            if (tmpRec == null)
+                return null;
 
-            var pX = _cosTheta * rec.Position.X + _sinTheta * rec.Position.Z;
-            var pY = rec.Position.Y;
-            var pZ = -_sinTheta * rec.Position.X + _cosTheta * rec.Position.Z;
+            var pX = _cosTheta * tmpRec.Position.X + _sinTheta * tmpRec.Position.Z;
+            var pY = tmpRec.Position.Y;
+            var pZ = -_sinTheta * tmpRec.Position.X + _cosTheta * tmpRec.Position.Z;
 
-            var normalX = _cosTheta * rec.Normal.X + _sinTheta * rec.Normal.Z;
-            var normalY = rec.Normal.Y;
-            var normalZ = -_sinTheta * rec.Normal.X + _cosTheta * rec.Normal.Z;
+            var normalX = _cosTheta * tmpRec.Normal.X + _sinTheta * tmpRec.Normal.Z;
+            var normalY = tmpRec.Normal.Y;
+            var normalZ = -_sinTheta * tmpRec.Normal.X + _cosTheta * tmpRec.Normal.Z;
 
-            rec.SetPosition(new Vec3(pX, pY, pZ));
-            rec.SetFaceNormal(rotatedR, new Vec3(normalX, normalY, normalZ));
-
-            return true;
+            var p = new Vec3(pX, pY, pZ);
+            var n = new Vec3(normalX, normalY, normalZ);
+            var ff = ray.Direction.Dot(n) < 0;
+            if (!ff)
+                n = -n;
+            return new HitRecord(tmpRec.T, p, n, tmpRec.Material, ff);
         }
 
         public override Aabb BoundingBox(double dt) => _bbox;

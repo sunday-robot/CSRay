@@ -11,7 +11,7 @@ namespace CsRay
 
         /// <param name="ray">レイ</param>
         /// <returns>衝突点で分散(？)されたレイ</returns>
-        public abstract bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered);
+        public abstract (Rgb, Ray)? Scatter(Ray ray, HitRecord rec);
 
         /// <param name="v">入射ベクトル</param>
         /// <param name="normal">法線ベクトル</param>

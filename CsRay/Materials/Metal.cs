@@ -21,12 +21,13 @@
 
         public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
 
-        public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
+        public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
         {
             var reflectionDirection = Reflect(ray.Direction.Unit, rec.Normal);
-            scattered = new Ray(rec.Position, reflectionDirection + _fuzz * Util.RandomInUnitSphere(), ray.Time);
-            attenuation = _albedo;
-            return scattered.Direction.Dot(rec.Normal) > 0;
+            var scattered = new Ray(rec.Position, reflectionDirection + _fuzz * Util.RandomInUnitSphere(), ray.Time);
+            if (scattered.Direction.Dot(rec.Normal) <= 0)
+                return null;
+            return (_albedo, scattered);
         }
 
         public override string ToString()

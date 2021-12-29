@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace CsRay.Hittables
 {
@@ -21,22 +20,21 @@ namespace CsRay.Hittables
             _objects = hittableList.ToArray();
         }
 
-        public override bool Hit(Ray r, double tMin, double tMax, ref HitRecord rec)
+        public override HitRecord Hit(Ray r, double tMin, double tMax)
         {
-            var tempRec = new HitRecord(0, new Vec3(0, 0, 0), new Vec3(0, 0, 0), null);
-            var hitAnything = false;
             var closestSoFar = tMax;
+            HitRecord rec = null;
 
             foreach (var hittable in _objects)
             {
-                if (hittable.Hit(r, tMin, closestSoFar, ref tempRec))
+                var tmpRec = hittable.Hit(r, tMin, closestSoFar);
+                if (tmpRec != null)
                 {
-                    hitAnything = true;
-                    closestSoFar = tempRec.T;
-                    rec = tempRec;
+                    closestSoFar = tmpRec.T;
+                    rec = tmpRec;
                 }
             }
-            return hitAnything;
+            return rec;
         }
 
         public override Aabb BoundingBox(double dt)

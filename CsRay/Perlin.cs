@@ -24,7 +24,6 @@ namespace CsRay
 
         public Perlin()
         {
-
             _ranvec = new Vec3[_pointCount];
             for (int i = 0; i < _pointCount; ++i)
             {
@@ -35,7 +34,6 @@ namespace CsRay
             _permY = PerlinGeneratePerm();
             _permZ = PerlinGeneratePerm();
         }
-
 
         double Noise(Vec3 p)
         {

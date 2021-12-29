@@ -12,7 +12,7 @@ namespace CsRay.Main
 
         static void Main()
         {
-#if true
+#if false
             var imageWidth = 1280;
             var imageHeight = 720;
             //var overSamplingCount = 10;
@@ -20,7 +20,7 @@ namespace CsRay.Main
 #else
             var imageWidth = 320;
             var imageHeight = 180;
-            var overSamplingCount = 100;
+            var overSamplingCount = 10;
 #endif
             //var (hittables, camera, background) = CreateXyRectScene();
             //var (hittables, camera, background) = CreateSingleBoxScene();

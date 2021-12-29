@@ -15,11 +15,11 @@ namespace CsRay.Materials
 
         public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
 
-        public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
+        public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
         {
-            attenuation = _albedo.Value(rec.U, rec.V, rec.Position);
-            scattered = new Ray(rec.Position, Util.RandomInUnitSphere(), ray.Time);
-            return true;
+            var attenuation = _albedo.Value(rec.U, rec.V, rec.Position);
+            var scattered = new Ray(rec.Position, Util.RandomInUnitSphere(), ray.Time);
+            return (attenuation, scattered);
         }
     }
 }

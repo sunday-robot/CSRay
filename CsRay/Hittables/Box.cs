@@ -1,6 +1,4 @@
-﻿using CsRay.Materials;
-
-namespace CsRay.Hittables
+﻿namespace CsRay.Hittables
 {
     public sealed class Box : Hittable
     {
@@ -22,6 +20,6 @@ namespace CsRay.Hittables
 
         public override Aabb BoundingBox(double dt) => _aabb;
 
-        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec) => _sides.Hit(ray, tMin, tMax, ref rec);
+        public override HitRecord Hit(Ray ray, double tMin, double tMax) => _sides.Hit(ray, tMin, tMax);
     }
 }

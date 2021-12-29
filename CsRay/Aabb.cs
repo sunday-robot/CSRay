@@ -17,11 +17,6 @@ namespace CsRay
 
         public bool Hit(Ray ray, double tMin, double tMax)
         {
-#if false
-            return HitSub(Min.X, Max.X, ray.Origin.X, ray.Direction.X, ref tMin, ref tMax)
-                && HitSub(Min.Y, Max.Y, ray.Origin.X, ray.Direction.Y, ref tMin, ref tMax)
-                && HitSub(Min.Z, Max.Z, ray.Origin.Z, ray.Direction.Z, ref tMin, ref tMax);
-#else
             double t;
 
             t = Math.Min((Min.X - ray.Origin.X) / ray.Direction.X,
@@ -51,21 +46,7 @@ namespace CsRay
             if (tMax <= tMin)
                 return false;
             return true;
-#endif
         }
-
-#if false
-        static bool HitSub(double min, double max,
-             double rayOrigin, double rayDirection,
-             ref double tMin, ref double tMax)
-        {
-            var a = (min - rayOrigin) / rayDirection;
-            var b = (max - rayOrigin) / rayDirection;
-            tMin = Math.Max(a, tMin);
-            tMax = Math.Min(b, tMax);
-            return tMin < tMax;
-        }
-#endif
 
         public static Aabb SurroundingAabb(Aabb a, Aabb b)
         {

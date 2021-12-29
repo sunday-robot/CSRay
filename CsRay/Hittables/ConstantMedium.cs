@@ -19,56 +19,38 @@ namespace CsRay.Hittables
 
         public ConstantMedium(Hittable b, double d, Rgb c) : this(b, d, new SolidColor(c)) { }
 
-        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
+        public override HitRecord Hit(Ray ray, double tMin, double tMax)
         {
-            bool enableDebug = false;
-            bool debugging = enableDebug && Util.Rand() < 0.00001;
+            double t1;
+            double t2;
+            {
+                // レイの後方も含めて交点があるかチェックする。
+                var rec1 = _boundary.Hit(ray, double.NegativeInfinity, double.PositiveInfinity);
+                if (rec1 == null)
+                    return null;
 
-            var rec1 = new HitRecord(0, new Vec3(0, 0, 0), new Vec3(0, 0, 0), null);
-            var rec2 = new HitRecord(0, new Vec3(0, 0, 0), new Vec3(0, 0, 0), null);
+                // レイの前方に交点があるかチェックする
+                var rec2 = _boundary.Hit(ray, rec1.T + 0.0001, double.PositiveInfinity);
+                if (rec2 == null)
+                    return null;
 
-            if (!_boundary.Hit(ray, double.NegativeInfinity, double.PositiveInfinity, ref rec1))
-                return false;
+                t1 = Math.Max(rec1.T, tMin);
+                t2 = Math.Min(rec2.T, tMax);
+            }
 
-            if (!_boundary.Hit(ray, rec1.T + 0.0001, double.PositiveInfinity, ref rec2))
-                return false;
-
-            if (debugging)
-                Console.WriteLine($"\nt_min={rec1.T}, tMax={rec2.T}");
-
-            if (rec1.T < tMin)
-                rec1.SetT(tMin);
-            if (rec2.T > tMax)
-                rec2.SetT(tMax);
-
-            if (rec1.T >= rec2.T)
-                return false;
-
-            if (rec1.T < 0)
-                rec1.SetT(0);
+            if (t1 >= t2)
+                return null;
 
             var rayLength = ray.Direction.Length;
-            var distanceInsideBoundary = (rec2.T - rec1.T) * rayLength;
+            var distanceInsideBoundary = (t2 - t1) * rayLength;
             var hitDistance = _negInvDensity * Math.Log(Util.Rand());
 
             if (hitDistance > distanceInsideBoundary)
-                return false;
+                return null;
 
-            rec.SetT(rec1.T + hitDistance / rayLength);
-            rec.SetPosition(ray.PositionAt(rec.T));
-
-            if (debugging)
-            {
-                Console.WriteLine($"hit_distance = {hitDistance}");
-                Console.WriteLine($"rec.T = {rec.T}");
-                Console.WriteLine($"rec.p = {rec.Position}");
-            }
-
-            rec.SetNormal(new Vec3(1, 0, 0));  // arbitrary
-            rec.SetFrontFace(true);     // also arbitrary
-            rec.SetMaterial(_phaseFunction);
-
-            return true;
+            var t = t1 + hitDistance / rayLength;
+            var p = ray.PositionAt(t);
+            return new HitRecord(t, p, null, _phaseFunction);
         }
 
         public override Aabb BoundingBox(double dt) => _boundary.BoundingBox(dt);

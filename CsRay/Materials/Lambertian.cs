@@ -21,7 +21,7 @@ namespace CsRay.Materials
 
         public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
 
-        public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
+        public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
         {
             var scatterDirection = rec.Normal + Util.RandomInUnitSphere();
 
@@ -29,9 +29,9 @@ namespace CsRay.Materials
             if (scatterDirection.NearZero())
                 scatterDirection = rec.Normal;
 
-            scattered = new Ray(rec.Position, scatterDirection, ray.Time);
-            attenuation = _albedo.Value(rec.U, rec.V, rec.Position);
-            return true;
+            var scattered = new Ray(rec.Position, scatterDirection, ray.Time);
+            var attenuation = _albedo.Value(rec.U, rec.V, rec.Position);
+            return (attenuation, scattered);
         }
 
         public override string ToString()

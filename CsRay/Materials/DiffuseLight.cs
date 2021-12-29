@@ -15,12 +15,7 @@ namespace CsRay.Materials
 
         public DiffuseLight(double r, double g, double b) : this(new Rgb(r, g, b)) { }
 
-        public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
-        {
-            attenuation = null;
-            scattered = null;
-            return false;
-        }
+        public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec) => null;
 
         public override Rgb Emitted(double u, double v, Vec3 p) => _emit.Value(u, v, p);
     }

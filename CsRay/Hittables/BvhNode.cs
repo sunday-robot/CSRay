@@ -64,31 +64,33 @@ namespace CsRay.Hittables
             }
         }
 
-        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
+        public override HitRecord Hit(Ray ray, double tMin, double tMax)
         {
             if (!_aabb.Hit(ray, tMin, tMax))
-                return false;
+                return null;
 
             if (DebugMode)
             {
                 if (!(_left is BvhNode) && !(_right is BvhNode))
-                {
-                    rec.SetMaterial(_debugMaterial);
-                    return true;
-                }
+                    return new HitRecord(0, null, null, _debugMaterial);
             }
 
-            if (_left.Hit(ray, tMin, tMax, ref rec))
+            var rec1 = _left.Hit(ray, tMin, tMax);
+            if (rec1 != null)
             {
                 if (_right != null)
-                    _right.Hit(ray, tMin, rec.T, ref rec);
-                return true;
+                {
+                    var rec2 = _right.Hit(ray, tMin, rec1.T);
+                    if (rec2 != null)
+                        return rec2;
+                }
+                return rec1;
             }
             else
             {
                 if (_right == null)
-                    return false;
-                return _right.Hit(ray, tMin, tMax, ref rec);
+                    return null;
+                return _right.Hit(ray, tMin, tMax);
             }
         }
 
@@ -138,9 +140,7 @@ namespace CsRay.Hittables
         {
             Console.WriteLine($"{indent}aabb = {_aabb}");
             if (_right == null)
-            {
                 Console.WriteLine($"{indent}{_left}");
-            }
             else
             {
                 if (_left is BvhNode leftBhvNode)

@@ -17,11 +17,11 @@ namespace CsRay.Materials
 
         public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
 
-        public override bool Scatter(Ray ray, ref HitRecord rec, out Rgb attenuation, out Ray scattered)
+        public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
         {
-            attenuation = new Rgb(1, 1, 1);
+            var attenuation = new Rgb(1, 1, 1);
 
-            var refractionRatio = rec.FrontFace ? (1.0 / _refractiveIndex) : _refractiveIndex;
+            var refractionRatio = rec.FrontFace.Value ? (1.0 / _refractiveIndex) : _refractiveIndex;
 
             var unitDirection = ray.Direction.Unit;
             double cosTheta = Math.Min(-unitDirection.Dot(rec.Normal), 1);
@@ -35,34 +35,11 @@ namespace CsRay.Materials
             else
                 direction = Refract(unitDirection, rec.Normal, refractionRatio);
 
-            scattered = new Ray(rec.Position, direction, ray.Time);
-            return true;
-#if false
-            Vec3 outwardNormal;
-            double rri; // 相対屈折率(元の素材の屈折率/先の素材の屈折率)
-            if (ray.Direction.Dot(rec.Normal) > 0)
-            {
-                // レイがこの素材の物体から出る場合
-                outwardNormal = -rec.Normal;
-                rri = _refractiveIndex;
-            }
-            else
-            {
-                // レイがこの素材の物体に入る場合
-                outwardNormal = rec.Normal;
-                rri = 1.0 / _refractiveIndex;
-            }
-            var refractedDirection = Refract(ray.Direction, outwardNormal, rri);
-            if (refractedDirection == null)
-                return (attenuation, new Ray(rec.Position, Reflect(ray.Direction, rec.Normal), 0.0));
+            var scattered = new Ray(rec.Position, direction, ray.Time);
 
-            var cosine = -ray.Direction.Dot(outwardNormal) / ray.Direction.Length;
-            var reflectProb = Util.Schlick(cosine, _refractiveIndex);
-            var direction = (Util.Rand() < reflectProb) ? Reflect(ray.Direction, rec.Normal) :
-                refractedDirection;
-            return (attenuation, new Ray(rec.Position, direction, 0.0));
-#endif
+            return (attenuation, scattered);
         }
+
         static double Reflectance(double cosine, double refIdx)
         {
             // Use Schlick's approximation for reflectance.

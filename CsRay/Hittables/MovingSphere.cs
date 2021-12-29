@@ -23,9 +23,9 @@ namespace CsRay.Hittables
             _velocity = velocity;
         }
 
-        public override bool Hit(Ray ray, double tMin, double tMax, ref HitRecord rec)
+        public override HitRecord Hit(Ray ray, double tMin, double tMax)
         {
-        	var center = _center + _velocity * ray.Time;
+            var center = _center + _velocity * ray.Time;
             var oc = ray.Origin - center;
             var a = ray.Direction.SquaredLength;
             var halfB = oc.Dot(ray.Direction);
@@ -33,7 +33,7 @@ namespace CsRay.Hittables
 
             var discriminant = halfB * halfB - a * c;
             if (discriminant < 0)
-                return false;
+                return null;
 
             var d2 = Math.Sqrt(discriminant);
 
@@ -43,20 +43,15 @@ namespace CsRay.Hittables
             {
                 root = (-halfB + d2) / a;
                 if (root < tMin || tMax < root)
-                    return false;
+                    return null;
             }
 
             var p = ray.PositionAt(root);
             var outwardNormal = (p - center) / _radius;
             var (u, v) = GetSphereUv(outwardNormal);
-
-            rec.SetT(root);
-            rec.SetPosition(p);
-            rec.SetFaceNormal(ray, outwardNormal);
-            rec.SetUv(u, v);
-            rec.SetMaterial(_material);
-
-            return true;
+            var ff = ray.Direction.Dot(outwardNormal) < 0;
+            var n = ff ? outwardNormal : -outwardNormal;
+            return new HitRecord(root, p, n, _material, ff, u, v);
         }
 
         public override Aabb BoundingBox(double dt)
