@@ -64,23 +64,6 @@ namespace CsRay
             ps.Close();
         }
 
-        /// <param name="cosine">余弦</param>
-        /// <param name="refIdx">屈折率</param>
-        /// <returns>?</returns>
-        public static double Schlick(double cosine, double refIdx)
-        {
-            var tmp = (1.0 - refIdx) / (1.0 + refIdx);
-            var r0 = tmp * tmp;
-            return r0 + (1.0 - r0) * Math.Pow(1.0 - cosine, 5.0);
-        }
-
-        public static double OriginalSchlick(double cosine, double n1, double n2)
-        {
-            var tmp = (n1 - n2) / (n1 + n2);
-            var r0 = tmp * tmp;
-            return r0 + (1.0 - r0) * Math.Pow(1.0 - cosine, 5.0);
-        }
-
         public static Rgb RandomRgb(double min, double max)
         {
             var r = Rand(min, max);

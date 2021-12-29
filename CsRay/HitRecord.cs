@@ -19,9 +19,9 @@
 
         public double V { get; }
 
-        public bool? FrontFace { get; }
+        public bool FrontFace { get; }
 
-        public HitRecord(double t, Vec3 position, Vec3 normal, Material material, bool? frontFace = null, double u = 0, double v = 0)
+        public HitRecord(double t, Vec3 position, Vec3 normal, Material material, bool frontFace = false, double u = 0, double v = 0)
         {
             T = t;
             Position = position;

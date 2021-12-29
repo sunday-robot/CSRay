@@ -21,7 +21,7 @@ namespace CsRay.Materials
         {
             var attenuation = new Rgb(1, 1, 1);
 
-            var refractionRatio = rec.FrontFace.Value ? (1.0 / _refractiveIndex) : _refractiveIndex;
+            var refractionRatio = rec.FrontFace ? (1.0 / _refractiveIndex) : _refractiveIndex;
 
             var unitDirection = ray.Direction.Unit;
             double cosTheta = Math.Min(-unitDirection.Dot(rec.Normal), 1);
