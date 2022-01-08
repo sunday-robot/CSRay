@@ -17,32 +17,63 @@ namespace CsRay
 
         public bool Hit(Ray ray, double tMin, double tMax)
         {
-            double t;
+            double a;
+            double b;
 
-            t = Math.Min((Min.X - ray.Origin.X) / ray.Direction.X,
-                           (Max.X - ray.Origin.X) / ray.Direction.X);
-            tMin = Math.Max(t, tMin);
-            t = Math.Max((Min.X - ray.Origin.X) / ray.Direction.X,
-                           (Max.X - ray.Origin.X) / ray.Direction.X);
-            tMax = Math.Min(t, tMax);
+            a = (Min.X - ray.Origin.X) / ray.Direction.X;
+            b = (Max.X - ray.Origin.X) / ray.Direction.X;
+            if (a > b)
+            {
+                if (b > tMin)
+                    tMin = b;
+                if (a < tMax)
+                    tMax = a;
+            }
+            else
+            {
+                if (a > tMin)
+                    tMin = a;
+                if (b < tMax)
+                    tMax= b;
+            }
             if (tMax <= tMin)
                 return false;
 
-            t = Math.Min((Min.Y - ray.Origin.Y) / ray.Direction.Y,
-                           (Max.Y - ray.Origin.Y) / ray.Direction.Y);
-            tMin = Math.Max(t, tMin);
-            t = Math.Max((Min.Y - ray.Origin.Y) / ray.Direction.Y,
-                           (Max.Y - ray.Origin.Y) / ray.Direction.Y);
-            tMax = Math.Min(t, tMax);
+            a = (Min.Y - ray.Origin.Y) / ray.Direction.Y;
+            b = (Max.Y - ray.Origin.Y) / ray.Direction.Y;
+            if (a > b)
+            {
+                if (b > tMin)
+                    tMin = b;
+                if (a < tMax)
+                    tMax = a;
+            }
+            else
+            {
+                if (a > tMin)
+                    tMin = a;
+                if (b < tMax)
+                    tMax = b;
+            }
             if (tMax <= tMin)
                 return false;
 
-            t = Math.Min((Min.Z - ray.Origin.Z) / ray.Direction.Z,
-                           (Max.Z - ray.Origin.Z) / ray.Direction.Z);
-            tMin = Math.Max(t, tMin);
-            t = Math.Max((Min.Z - ray.Origin.Z) / ray.Direction.Z,
-                           (Max.Z - ray.Origin.Z) / ray.Direction.Z);
-            tMax = Math.Min(t, tMax);
+            a = (Min.Z - ray.Origin.Z) / ray.Direction.Z;
+            b = (Max.Z - ray.Origin.Z) / ray.Direction.Z;
+            if (a > b)
+            {
+                if (b > tMin)
+                    tMin = b;
+                if (a < tMax)
+                    tMax = a;
+            }
+            else
+            {
+                if (a > tMin)
+                    tMin = a;
+                if (b < tMax)
+                    tMax = b;
+            }
             if (tMax <= tMin)
                 return false;
             return true;

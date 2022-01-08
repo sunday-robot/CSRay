@@ -9,7 +9,6 @@ namespace CsRay
 
         public static Rgb[] Render(Hittable world, Camera camera, int width, int height, int sampleCount, Rgb background = null)
         {
-            var t0 = DateTime.Now;
             var pixels = new Rgb[height * width];
             for (var y = 0; y < height; y++)
             {
@@ -28,8 +27,6 @@ namespace CsRay
                     pixels[y * width + x] = rgbSum / sampleCount;
                 }
             }
-            var t = (DateTime.Now - t0).TotalMilliseconds;
-            Console.WriteLine($"time = {t / 1000}.{t % 1000}");
             return pixels;
         }
 

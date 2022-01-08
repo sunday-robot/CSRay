@@ -12,14 +12,16 @@ namespace CsRay.Main
 
         static void Main()
         {
-#if false
+#if true
             var imageWidth = 1280;
             var imageHeight = 720;
-            //var overSamplingCount = 10;
-            var overSamplingCount = 100;
 #else
             var imageWidth = 320;
             var imageHeight = 180;
+#endif
+#if false
+            var overSamplingCount = 100;
+#else
             var overSamplingCount = 10;
 #endif
             //var (hittables, camera, background) = CreateXyRectScene();
@@ -45,7 +47,11 @@ namespace CsRay.Main
 #if false
             BvhNode.DebugMode = false;
 #endif
+            var start = DateTime.UtcNow;
             var pixels = Renderer.Render(world, camera, imageWidth, imageHeight, overSamplingCount, background);
+            var end = DateTime.UtcNow;
+            Console.WriteLine($"time = {end - start}");
+            Console.ReadLine();
 
             try
             {
