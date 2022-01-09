@@ -13,7 +13,7 @@
         public Material Material { get; }
 
         /// <summary>レイ軸上の位置</summary>
-        public double T { get; private set; }
+        public double T { get; }
 
         public double U { get; }
 

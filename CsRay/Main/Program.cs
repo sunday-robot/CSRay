@@ -48,7 +48,11 @@ namespace CsRay.Main
             BvhNode.DebugMode = false;
 #endif
             var start = DateTime.UtcNow;
-            var pixels = Renderer.Render(world, camera, imageWidth, imageHeight, overSamplingCount, background);
+            var renderer = new Renderer();
+            renderer.SetWorld(world);
+            renderer.SetBackground(background);
+
+            var pixels = renderer.Render(camera, imageWidth, imageHeight, 50, overSamplingCount);
             var end = DateTime.UtcNow;
             Console.WriteLine($"time = {end - start}");
             Console.ReadLine();
