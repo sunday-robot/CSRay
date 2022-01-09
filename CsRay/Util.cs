@@ -5,14 +5,15 @@ namespace CsRay
 {
     public static class Util
     {
-        static readonly Random Random = new Random();
+        //static readonly Random Random = new Random();
+        static readonly MyRand Random = new MyRand();
 
         /// <returns>原点を中心とする半径1のXY平面上の円の中のランダムな位置</returns>
         public static Vec3 RandomInUnitDisk()
         {
             while (true)
             {
-                var p = 2.0 * (new Vec3(Rand(), Rand(), 0.0)) - (new Vec3(1.0, 1.0, 0.0));
+                var p = new Vec3(2 * Rand() - 1.0, 2 * Rand() - 1.0, 0.0);
                 if (p.SquaredLength < 1.0)
                     return p;
             }
@@ -29,9 +30,20 @@ namespace CsRay
             }
         }
 
-        public static double Rand() => Random.NextDouble();
-
-        public static double Rand(double min, double max) => min + Random.NextDouble() * (max - min);
+        public static double Rand()
+        {
+#if false
+            double r;
+            lock (Random)
+            {
+                r = Random.NextDouble();
+            }
+            return r;
+#else
+#endif
+            return Random.NextDouble();
+        }
+        public static double Rand(double min, double max) => min + Rand() * (max - min);
 
         public static int RandInt() => Random.Next();
 

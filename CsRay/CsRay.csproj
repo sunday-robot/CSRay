@@ -72,6 +72,7 @@
     <Compile Include="Materials\DebugMaterial.cs" />
     <Compile Include="Materials\DiffuseLight.cs" />
     <Compile Include="Materials\Isotropic.cs" />
+    <Compile Include="MyRand.cs" />
     <Compile Include="Perlin.cs" />
     <Compile Include="Textures\CheckerTexture.cs" />
     <Compile Include="Materials\Dielectric.cs" />

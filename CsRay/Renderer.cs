@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CsRay
 {
@@ -22,13 +23,23 @@ namespace CsRay
         public Rgb[] Render(Camera camera, int width, int height, int maxDepth, int sampleCount)
         {
             var pixels = new Rgb[height * width];
+#if false
             for (var y = 0; y < height; y++)
             {
                 Console.WriteLine($"{y}/{height}");
                 for (var x = 0; x < width; x++)
                 {
                     var rgbSum = new Rgb(0, 0, 0);
-                    for (var i = 0; i < sampleCount; i++)
+#if false
+                    Parallel.For(0, sampleCount, i =>
+                    {
+                        var u = (x + Util.Rand()) / width;
+                        var v = ((height - 1) - y + Util.Rand()) / height;
+                        var r = camera.GetRay(u, v);
+                        rgbSum += Color(r, maxDepth);
+                    });
+#else
+                    for(var i = 0; i < sampleCount; i++)
                     {
                         var u = (x + Util.Rand()) / width;
                         var v = ((height - 1) - y + Util.Rand()) / height;
@@ -36,9 +47,29 @@ namespace CsRay
                         var rgb = Color(r, maxDepth);
                         rgbSum += rgb;
                     }
+#endif
                     pixels[y * width + x] = rgbSum / sampleCount;
                 }
             }
+#else
+            Parallel.For(0, height, y =>
+             {
+                 Console.WriteLine($"{y}/{height}");
+                 for (var x = 0; x < width; x++)
+                 {
+                     var rgbSum = new Rgb(0, 0, 0);
+                     for (var i = 0; i < sampleCount; i++)
+                     {
+                         var u = (x + Util.Rand()) / width;
+                         var v = ((height - 1) - y + Util.Rand()) / height;
+                         var r = camera.GetRay(u, v);
+                         var rgb = Color(r, maxDepth);
+                         rgbSum += rgb;
+                     }
+                     pixels[y * width + x] = rgbSum / sampleCount;
+                 }
+             });
+#endif
             return pixels;
         }
 
