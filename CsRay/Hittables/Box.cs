@@ -20,6 +20,6 @@
 
         public override Aabb BoundingBox(double dt) => _aabb;
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax) => _sides.Hit(ray, tMin, tMax);
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax) => _sides.Hit(ray, tMin, tMax);
     }
 }

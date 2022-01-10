@@ -1,13 +1,12 @@
 ﻿using CsRay.Hittables;
 using CsRay.Materials;
 using CsRay.Textures;
-using System.Collections.Generic;
 
 namespace CsRay.Main
 {
     public partial class Program
     {
-        static (List<Hittable>, Camera, Rgb) CreateScene2()
+        static (List<Hittable>, Camera, Rgb?) CreateScene2()
         {
             var hittables = new List<Hittable>();
             {

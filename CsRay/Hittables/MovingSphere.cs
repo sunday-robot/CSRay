@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay.Hittables
+﻿namespace CsRay.Hittables
 {
     public sealed class MovingSphere : Hittable
     {
@@ -23,7 +21,7 @@ namespace CsRay.Hittables
             _velocity = velocity;
         }
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {
             var center = _center + _velocity * ray.Time;
             var oc = ray.Origin - center;

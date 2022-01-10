@@ -1,6 +1,5 @@
 ﻿using CsRay.Hittables;
 using CsRay.Materials;
-using System.Collections.Generic;
 
 namespace CsRay.Main
 {

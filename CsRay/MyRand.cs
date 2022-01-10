@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay
+﻿namespace CsRay
 {
     public sealed class MyRand
     {
@@ -8,7 +6,7 @@ namespace CsRay
 
         readonly double[] _doubleValues;
         readonly int[] _intValues;
-        readonly object _lockObject = new object();
+        readonly object _lockObject = new();
         int _index = -1;
 
         public MyRand() => Initialize(new Random(), out _doubleValues, out _intValues);

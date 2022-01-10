@@ -1,11 +1,11 @@
 ﻿using CsRay.Materials;
 using CsRay.Textures;
-using System;
 
 namespace CsRay.Hittables
 {
     public sealed class ConstantMedium : Hittable
     {
+        static readonly Vec3 _dummyNormal = new(0, 0, 0);
         readonly Hittable _boundary;
         readonly Material _phaseFunction;
         readonly double _negInvDensity;
@@ -19,7 +19,7 @@ namespace CsRay.Hittables
 
         public ConstantMedium(Hittable b, double d, Rgb c) : this(b, d, new SolidColor(c)) { }
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {
             double t1;
             double t2;
@@ -50,7 +50,7 @@ namespace CsRay.Hittables
 
             var t = t1 + hitDistance / rayLength;
             var p = ray.PositionAt(t);
-            return new HitRecord(t, p, null, _phaseFunction);
+            return new HitRecord(t, p, _dummyNormal, _phaseFunction);
         }
 
         public override Aabb BoundingBox(double dt) => _boundary.BoundingBox(dt);

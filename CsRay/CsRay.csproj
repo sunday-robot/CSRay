@@ -1,103 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DD54646C-27E7-4BDB-BB70-0B151E3F13BC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>CsRay</RootNamespace>
-    <AssemblyName>CsRay</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Aabb.cs" />
-    <Compile Include="Hittables\BvhNode.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="Hittables\RotateY.cs" />
-    <Compile Include="Hittables\XyRect.cs" />
-    <Compile Include="Hittables\XzRect.cs" />
-    <Compile Include="Hittables\YzRect.cs" />
-    <Compile Include="Hittables\Box.cs" />
-    <Compile Include="Hittables\ConstantMedium.cs" />
-    <Compile Include="Main\CreateFinalScene2.cs" />
-    <Compile Include="Main\CreateXyRectScene.cs" />
-    <Compile Include="Materials\Lambertian.cs" />
-    <Compile Include="Main\Create2PerlinSpheresScene.cs" />
-    <Compile Include="Main\CreateCornellBox.cs" />
-    <Compile Include="Main\CreateCornellSmoke.cs" />
-    <Compile Include="Main\CreateFinalScene.cs" />
-    <Compile Include="Main\CreateRandomScene.cs" />
-    <Compile Include="Main\CreateScene0.cs" />
-    <Compile Include="Main\CreateScene1.cs" />
-    <Compile Include="Main\CreateScene2.cs" />
-    <Compile Include="Main\CreateSimpleLight.cs" />
-    <Compile Include="Main\CreateSimpleScene.cs" />
-    <Compile Include="Main\CreateSimpleScene2.cs" />
-    <Compile Include="Main\CreateSingleBoxScene.cs" />
-    <Compile Include="Materials\DebugMaterial.cs" />
-    <Compile Include="Materials\DiffuseLight.cs" />
-    <Compile Include="Materials\Isotropic.cs" />
-    <Compile Include="MyRand.cs" />
-    <Compile Include="Perlin.cs" />
-    <Compile Include="Textures\CheckerTexture.cs" />
-    <Compile Include="Materials\Dielectric.cs" />
-    <Compile Include="Hittable.cs" />
-    <Compile Include="Hittables\HittableList.cs" />
-    <Compile Include="HitRecord.cs" />
-    <Compile Include="Textures\ImageTexture.cs" />
-    <Compile Include="Main\Program.cs" />
-    <Compile Include="Material.cs" />
-    <Compile Include="Materials\Metal.cs" />
-    <Compile Include="Hittables\MovingSphere.cs" />
-    <Compile Include="Textures\NoiseTexture.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Ray.cs" />
-    <Compile Include="Renderer.cs" />
-    <Compile Include="Rgb.cs" />
-    <Compile Include="Textures\SolidColor.cs" />
-    <Compile Include="Hittables\Sphere.cs" />
-    <Compile Include="Texture.cs" />
-    <Compile Include="Hittables\Translate.cs" />
-    <Compile Include="Util.cs" />
-    <Compile Include="Vec3.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

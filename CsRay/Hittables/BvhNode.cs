@@ -1,6 +1,4 @@
 ﻿using CsRay.Materials;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace CsRay.Hittables
@@ -8,11 +6,12 @@ namespace CsRay.Hittables
     public sealed class BvhNode : Hittable
     {
         public static bool DebugMode { get; set; } = false;
+        static readonly Vec3 _dummyVec3 = new(0, 0, 0);
 
         readonly Hittable _left;
-        readonly Hittable _right;
+        readonly Hittable? _right;
         readonly Aabb _aabb;
-        readonly DebugMaterial _debugMaterial = new DebugMaterial();
+        readonly DebugMaterial _debugMaterial = new();
 
         public BvhNode(List<Hittable> list, double dt) :
             this(new List<Hittable>(list), 0, list.Count, dt)
@@ -64,7 +63,7 @@ namespace CsRay.Hittables
             }
         }
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {
             if (!_aabb.Hit(ray, tMin, tMax))
                 return null;
@@ -72,7 +71,7 @@ namespace CsRay.Hittables
             if (DebugMode)
             {
                 if (!(_left is BvhNode) && !(_right is BvhNode))
-                    return new HitRecord(0, null, null, _debugMaterial);
+                    return new HitRecord(0, _dummyVec3, _dummyVec3, _debugMaterial);
             }
 
             var rec1 = _left.Hit(ray, tMin, tMax);
@@ -117,15 +116,12 @@ namespace CsRay.Hittables
         static IComparer<Hittable> GetComparerRandomly()
         {
             var axis = Util.RandInt() % 3;
-            switch (axis)
+            return axis switch
             {
-                case 0:
-                    return _boxCompareX;
-                case 1:
-                    return _boxCompareY;
-                default:
-                    return _boxCompareZ;
-            }
+                0 => _boxCompareX,
+                1 => _boxCompareY,
+                _ => _boxCompareZ,
+            };
         }
 
         static void BoxCompareSub(Hittable a, Hittable b, out Aabb boxA, out Aabb boxB)

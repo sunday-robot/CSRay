@@ -1,45 +1,30 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace CsRay
+﻿namespace CsRay
 {
     public class Renderer
     {
         const double _tMin = 0.001;
 
-        Hittable _world;
-        Rgb _background;
+        readonly Hittable _world;
+        readonly Rgb? _background;
 
-        public void SetWorld(Hittable world)
+        public Renderer(Hittable world, Rgb? background)
         {
             _world = world;
-        }
-
-        public void SetBackground(Rgb background)
-        {
             _background = background;
         }
 
         public Rgb[] Render(Camera camera, int width, int height, int maxDepth, int sampleCount)
         {
             var pixels = new Rgb[height * width];
-#if false
+#if true
+            // 並列処理を行わない(39.2秒)
             for (var y = 0; y < height; y++)
             {
                 Console.WriteLine($"{y}/{height}");
                 for (var x = 0; x < width; x++)
                 {
                     var rgbSum = new Rgb(0, 0, 0);
-#if false
-                    Parallel.For(0, sampleCount, i =>
-                    {
-                        var u = (x + Util.Rand()) / width;
-                        var v = ((height - 1) - y + Util.Rand()) / height;
-                        var r = camera.GetRay(u, v);
-                        rgbSum += Color(r, maxDepth);
-                    });
-#else
-                    for(var i = 0; i < sampleCount; i++)
+                    for (var i = 0; i < sampleCount; i++)
                     {
                         var u = (x + Util.Rand()) / width;
                         var v = ((height - 1) - y + Util.Rand()) / height;
@@ -47,28 +32,67 @@ namespace CsRay
                         var rgb = Color(r, maxDepth);
                         rgbSum += rgb;
                     }
-#endif
                     pixels[y * width + x] = rgbSum / sampleCount;
                 }
             }
 #else
-            Parallel.For(0, height, y =>
-             {
-                 Console.WriteLine($"{y}/{height}");
-                 for (var x = 0; x < width; x++)
-                 {
-                     var rgbSum = new Rgb(0, 0, 0);
-                     for (var i = 0; i < sampleCount; i++)
-                     {
-                         var u = (x + Util.Rand()) / width;
-                         var v = ((height - 1) - y + Util.Rand()) / height;
-                         var r = camera.GetRay(u, v);
-                         var rgb = Color(r, maxDepth);
-                         rgbSum += rgb;
-                     }
-                     pixels[y * width + x] = rgbSum / sampleCount;
-                 }
-             });
+            var parallelOption = new ParallelOptions();
+            parallelOption.MaxDegreeOfParallelism = 4;
+#if false
+            // Yループを並列処理(4->32.9秒)
+            Parallel.For(0, height, parallelOption, y =>
+            {
+                Console.WriteLine($"{y}/{height}");
+                for (var x = 0; x < width; x++)
+                {
+                    var rgbSum = new Rgb(0, 0, 0);
+                    for (var i = 0; i < sampleCount; i++)
+                    {
+                        var u = (x + Util.Rand()) / width;
+                        var v = ((height - 1) - y + Util.Rand()) / height;
+                        var r = camera.GetRay(u, v);
+                        var rgb = Color(r, maxDepth);
+                        rgbSum += rgb;
+                    }
+                    pixels[y * width + x] = rgbSum / sampleCount;
+                }
+            });
+#else
+            for (var y = 0; y < height; y++)
+            {
+                Console.WriteLine($"{y}/{height}");
+#if false
+                // Xループを並列処理(4->32.6秒)
+                Parallel.For(0, width, parallelOption, x =>
+                {
+                    var rgbSum = new Rgb(0, 0, 0);
+                    for (var i = 0; i < sampleCount; i++)
+                    {
+                        var u = (x + Util.Rand()) / width;
+                        var v = ((height - 1) - y + Util.Rand()) / height;
+                        var r = camera.GetRay(u, v);
+                        var rgb = Color(r, maxDepth);
+                        rgbSum += rgb;
+                    }
+                    pixels[y * width + x] = rgbSum / sampleCount;
+                });
+#else
+                // サンプリングループを並列処理(4->86.4秒)
+                for (var x = 0; x < width; x++)
+                {
+                    var rgbSum = new Rgb(0, 0, 0);
+                    Parallel.For(0, sampleCount, i =>
+                    {
+                        var u = (x + Util.Rand()) / width;
+                        var v = ((height - 1) - y + Util.Rand()) / height;
+                        var r = camera.GetRay(u, v);
+                        rgbSum += Color(r, maxDepth);
+                    });
+                    pixels[y * width + x] = rgbSum / sampleCount;
+                }
+#endif
+            }
+#endif
 #endif
             return pixels;
         }

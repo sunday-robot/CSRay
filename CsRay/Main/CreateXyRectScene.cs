@@ -1,12 +1,11 @@
 ﻿using CsRay.Hittables;
 using CsRay.Materials;
-using System.Collections.Generic;
 
 namespace CsRay.Main
 {
     public partial class Program
     {
-        static (List<Hittable>, Camera, Rgb) CreateXyRectScene()
+        static (List<Hittable>, Camera, Rgb?) CreateXyRectScene()
         {
             var objects = new List<Hittable>();
             {

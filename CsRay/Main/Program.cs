@@ -1,12 +1,11 @@
 ﻿using CsRay.Hittables;
-using System;
 using System.Diagnostics;
 
 namespace CsRay.Main
 {
     public partial class Program
     {
-        static readonly Random _rand = new Random();
+        static readonly Random _rand = new();
         static double Rand() => _rand.NextDouble();
         static double Rand2() => _rand.NextDouble() * _rand.NextDouble();
 
@@ -48,9 +47,7 @@ namespace CsRay.Main
             BvhNode.DebugMode = false;
 #endif
             var start = DateTime.UtcNow;
-            var renderer = new Renderer();
-            renderer.SetWorld(world);
-            renderer.SetBackground(background);
+            var renderer = new Renderer(world, background);
 
             var pixels = renderer.Render(camera, imageWidth, imageHeight, 50, overSamplingCount);
             var end = DateTime.UtcNow;
@@ -59,7 +56,7 @@ namespace CsRay.Main
 
             try
             {
-                Util.SaveAsPpm(imageWidth, imageHeight, pixels, "Spheres.ppm");
+                Util.SaveAsBmp(imageWidth, imageHeight, pixels, "Spheres.bmp");
             }
             catch (Exception e)
             {

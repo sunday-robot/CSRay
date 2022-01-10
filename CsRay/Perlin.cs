@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay
+﻿namespace CsRay
 {
     public sealed class Perlin
     {

@@ -1,7 +1,6 @@
 ﻿using CsRay.Hittables;
 using CsRay.Materials;
 using CsRay.Textures;
-using System.Collections.Generic;
 
 namespace CsRay.Main
 {
@@ -51,11 +50,7 @@ namespace CsRay.Main
                 boundary = new Sphere(new Vec3(0, 0, 0), 5000, new Dielectric(1.5));
                 objects.Add(new ConstantMedium(boundary, .0001, new Rgb(1, 1, 1)));
 
-#if false
-            var emat = new Lambertian(new ImageTexture("earthmap.jpg"));
-#else
-                var emat = new Lambertian(0.1, 0.2, 0.8);
-#endif
+                var emat = new Lambertian(new ImageTexture("../../../earthmap.bmp"));
                 objects.Add(new Sphere(new Vec3(400, 200, 400), 100, emat));
                 var pertext = new NoiseTexture(0.1);
                 objects.Add(new Sphere(new Vec3(220, 280, 300), 80, new Lambertian(pertext)));

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay.Materials
+﻿namespace CsRay.Materials
 {
     /// <summary>
     /// 誘電体マテリアル(透明な材質)
@@ -24,17 +22,35 @@ namespace CsRay.Materials
             var refractionRatio = rec.FrontFace ? (1.0 / _refractiveIndex) : _refractiveIndex;
 
             var unitDirection = ray.Direction.Unit;
-            double cosTheta = Math.Min(-unitDirection.Dot(rec.Normal), 1);
+            var dt = unitDirection.Dot(rec.Normal);
+            double cosTheta = Math.Min(-dt, 1);
             double sinTheta = Math.Sqrt(1 - cosTheta * cosTheta);
 
-            var cannotRefract = refractionRatio * sinTheta > 1;
+            //var cannotRefract = refractionRatio * sinTheta > 1;
             Vec3 direction;
-
-            if (cannotRefract || Reflectance(cosTheta, refractionRatio) > Util.Rand())
+            if (refractionRatio * sinTheta > 1)
+            {
                 direction = Reflect(unitDirection, rec.Normal);
+            }
             else
+            {
+                if (Reflectance(cosTheta, refractionRatio) > Util.Rand())
+                    direction = Reflect(unitDirection, rec.Normal);
+                else
+                {
+#if false
                 direction = Refract(unitDirection, rec.Normal, refractionRatio);
-
+#else
+                    var discriminant = 1.0 - refractionRatio * refractionRatio * (1.0 - dt * dt);
+                    if (discriminant <= 0.0)
+                    {
+                        return null;
+                    }
+                    direction = refractionRatio * (unitDirection - rec.Normal * dt)
+                        - rec.Normal * Math.Sqrt(discriminant);
+#endif
+                }
+            }
             var scattered = new Ray(rec.Position, direction, ray.Time);
 
             return (attenuation, scattered);
@@ -50,7 +66,7 @@ namespace CsRay.Materials
 
         public override string ToString()
         {
-            return $"Dielectric({this._refractiveIndex})";
+            return $"Dielectric({_refractiveIndex})";
         }
     }
 }

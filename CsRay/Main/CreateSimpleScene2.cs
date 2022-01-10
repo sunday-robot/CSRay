@@ -1,6 +1,5 @@
 ﻿using CsRay.Hittables;
 using CsRay.Materials;
-using System.Collections.Generic;
 
 namespace CsRay.Main
 {
@@ -9,7 +8,7 @@ namespace CsRay.Main
         /// <summary>
         /// 世界の中心に、半径1のグレイの球のみがあるシーンを生成する。
         /// </summary>
-        static (List<Hittable>, Camera, Rgb) CreateSimpleScene2()
+        static (List<Hittable>, Camera, Rgb?) CreateSimpleScene2()
         {
             var hittables = new List<Hittable>
             {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay
+﻿namespace CsRay
 {
     public sealed class Vec3
     {
@@ -22,25 +20,23 @@ namespace CsRay
         /// <summary>長さを1にしたベクトル</summary>
         public Vec3 Unit => this / Length;
 
-        public static Vec3 operator -(Vec3 a) => new Vec3(-a.X, -a.Y, -a.Z);
+        public static Vec3 operator -(Vec3 a) => new(-a.X, -a.Y, -a.Z);
 
-        public static Vec3 operator +(Vec3 a, Vec3 b) => new Vec3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+        public static Vec3 operator +(Vec3 a, Vec3 b) => new(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 
-        public static Vec3 operator -(Vec3 a, Vec3 b) => new Vec3(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        public static Vec3 operator -(Vec3 a, Vec3 b) => new(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
 
-        public static Vec3 operator *(Vec3 a, double b) => new Vec3(a.X * b, a.Y * b, a.Z * b);
+        public static Vec3 operator *(Vec3 a, double b) => new(a.X * b, a.Y * b, a.Z * b);
 
         public static Vec3 operator *(double a, Vec3 b) => b * a;
 
-        public static Vec3 operator *(Vec3 a, Vec3 b) => new Vec3(a.X * b.X, a.Y * b.Y, a.Z * b.Z);
-
-        public static Vec3 operator /(Vec3 a, double b) => new Vec3(a.X / b, a.Y / b, a.Z / b);
+        public static Vec3 operator /(Vec3 a, double b) => new(a.X / b, a.Y / b, a.Z / b);
 
         /// <returns>内積</returns>
         public double Dot(Vec3 a) => X * a.X + Y * a.Y + Z * a.Z;
 
         /// <returns>外積</returns>
-        public Vec3 Cross(Vec3 a) => new Vec3(Y * a.Z - Z * a.Y, Z * a.X - X * a.Z, X * a.Y - Y * a.X);
+        public Vec3 Cross(Vec3 a) => new(Y * a.Z - Z * a.Y, Z * a.X - X * a.Z, X * a.Y - Y * a.X);
 
         public override string ToString()
         {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CsRay.Hittables
+﻿namespace CsRay.Hittables
 {
     /// <summary>
     /// [Ray]と[Hittable]の衝突情報
@@ -20,10 +18,10 @@ namespace CsRay.Hittables
             _objects = hittableList.ToArray();
         }
 
-        public override HitRecord Hit(Ray r, double tMin, double tMax)
+        public override HitRecord? Hit(Ray r, double tMin, double tMax)
         {
             var closestSoFar = tMax;
-            HitRecord rec = null;
+            HitRecord? rec = null;
 
             foreach (var hittable in _objects)
             {

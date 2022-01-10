@@ -1,6 +1,4 @@
-﻿using System;
-
-using static CsRay.Util;
+﻿using static CsRay.Util;
 
 namespace CsRay
 {
@@ -32,10 +30,9 @@ namespace CsRay
         /// <param name="origin"></param>
         /// <param name="u">カメラのX軸方向(単位ベクトルであること)</param>
         /// <param name="v">カメラのY軸方向(単位ベクトルであること)</param>
-        /// <param name="w">カメラのZ軸方向(単位ベクトルであること)</param>
         /// <param name="lensRadious"></param>
         /// <param name="exposureTime">露光時間</param>
-        public Camera(Vec3 lowerLeftCorner, Vec3 horizontal, Vec3 vertical, Vec3 origin, Vec3 u, Vec3 v, Vec3 w,
+        public Camera(Vec3 lowerLeftCorner, Vec3 horizontal, Vec3 vertical, Vec3 origin, Vec3 u, Vec3 v,
             double lensRadious, double exposureTime)
         {
             _lowerLeftCorner = lowerLeftCorner;
@@ -91,7 +88,7 @@ namespace CsRay
             var horizontal = 2 * halfWidth * focusDist * u;
             var vertical = 2 * halfHeight * focusDist * v;
             var lensRadius = aperture / 2.0;
-            return new Camera(lowerLeftCorner, horizontal, vertical, lookFrom, u, v, w, lensRadius, exposureTime);
+            return new Camera(lowerLeftCorner, horizontal, vertical, lookFrom, u, v, lensRadius, exposureTime);
         }
     }
 }

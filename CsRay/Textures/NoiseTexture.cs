@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace CsRay.Textures
+﻿namespace CsRay.Textures
 {
     public sealed class NoiseTexture : Texture
     {
-        readonly Perlin _noise = new Perlin();
+        readonly Perlin _noise = new();
         readonly double _scale;
 
         public NoiseTexture(double scale)
@@ -18,6 +16,5 @@ namespace CsRay.Textures
             // return color(1,1,1)*noise.turb(scale * p);
             return (new Rgb(1, 1, 1)) * 0.5 * (1 + Math.Sin(_scale * p.Z + 10 * _noise.Turb(p)));
         }
-
     }
 }

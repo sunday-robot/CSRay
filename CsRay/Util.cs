@@ -1,12 +1,9 @@
-﻿using System;
-using System.IO;
-
-namespace CsRay
+﻿namespace CsRay
 {
     public static class Util
     {
-        //static readonly Random Random = new Random();
-        static readonly MyRand Random = new MyRand();
+        static readonly Random Random = new();
+        //static readonly MyRand Random = new();    // 乱数生成処理、乱数生成オブジェクトのロック処理を簡素化すると高速化されるかと期待したが、ほとんど効果はなかった。
 
         /// <returns>原点を中心とする半径1のXY平面上の円の中のランダムな位置</returns>
         public static Vec3 RandomInUnitDisk()
@@ -32,7 +29,7 @@ namespace CsRay
 
         public static double Rand()
         {
-#if false
+#if true
             double r;
             lock (Random)
             {
@@ -40,27 +37,24 @@ namespace CsRay
             }
             return r;
 #else
-#endif
             return Random.NextDouble();
+#endif
         }
         public static double Rand(double min, double max) => min + Rand() * (max - min);
 
         public static int RandInt() => Random.Next();
 
         /// <summary>
-        /// PNM形式のファイルに保存する
+        /// BMP形式のファイルに保存する
         /// </summary>
         /// <param name="width">幅</param>
         /// <param name="height">高さ</param>
         /// <param name="pixels">画素</param>
         /// <param name="filePath">ファイルパス</param>
 
-        public static void SaveAsPpm(int width, int height, Rgb[] pixels, string filePath)
+        public static void SaveAsBmp(int width, int height, Rgb[] pixels, string filePath)
         {
-            var ps = new StreamWriter(filePath);
-            ps.WriteLine("P3");
-            ps.WriteLine($"{width} {height}");
-            ps.WriteLine("255");
+            var data = new byte[width * height * 3];
             for (var y = 0; y < height; y++)
             {
                 for (var x = 0; x < width; x++)
@@ -70,10 +64,12 @@ namespace CsRay
                     var r = Math.Min((int)(255 * p2.X + 0.5), 255);
                     var g = Math.Min((int)(255 * p2.Y + 0.5), 255);
                     var b = Math.Min((int)(255 * p2.Z + 0.5), 255);
-                    ps.WriteLine($"{r} {g} {b}");
+                    data[(y * width + x) * 3] = (byte)b;
+                    data[(y * width + x) * 3 + 1] = (byte)g;
+                    data[(y * width + x) * 3 + 2] = (byte)r;
                 }
             }
-            ps.Close();
+            Bmp.Save(filePath, data, width, height);
         }
 
         public static Rgb RandomRgb(double min, double max)

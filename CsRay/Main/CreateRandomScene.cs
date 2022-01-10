@@ -1,13 +1,12 @@
 ﻿using CsRay.Hittables;
 using CsRay.Materials;
 using CsRay.Textures;
-using System.Collections.Generic;
 
 namespace CsRay.Main
 {
     public partial class Program
     {
-        static (List<Hittable>, Camera, Rgb) CreateRandomScene()
+        static (List<Hittable>, Camera, Rgb?) CreateRandomScene()
         {
             var world = new List<Hittable>();
             {

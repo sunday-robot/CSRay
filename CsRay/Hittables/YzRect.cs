@@ -27,7 +27,7 @@
 
         public override Aabb BoundingBox(double dt) => _aabb;
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {
             var t = (_k - ray.Origin.X) / ray.Direction.X;
             if (t < tMin || t > tMax)

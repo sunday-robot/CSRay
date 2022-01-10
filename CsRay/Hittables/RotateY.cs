@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay.Hittables
+﻿namespace CsRay.Hittables
 {
     public class RotateY : Hittable
     {
@@ -50,7 +48,7 @@ namespace CsRay.Hittables
             _bbox = new Aabb(new Vec3(minX, minY, minZ), new Vec3(maxX, maxY, maxZ));
         }
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {
             var originX = _cosTheta * ray.Origin.X - _sinTheta * ray.Origin.Z;
             var originY = ray.Origin.Y;

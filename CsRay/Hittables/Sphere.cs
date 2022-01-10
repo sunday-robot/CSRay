@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay.Hittables
+﻿namespace CsRay.Hittables
 {
     public sealed class Sphere : Hittable
     {
@@ -19,7 +17,7 @@ namespace CsRay.Hittables
             _material = material;
         }
 
-        public override HitRecord Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {
             var oc = ray.Origin - _center;
             var a = ray.Direction.SquaredLength;

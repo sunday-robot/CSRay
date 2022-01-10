@@ -10,7 +10,7 @@
     /// </summary>
     public sealed class Rgb
     {
-        public static readonly Rgb Black = new Rgb(0, 0, 0);
+        public static readonly Rgb Black = new(0, 0, 0);
 
         public double R { get; }
 
@@ -25,15 +25,15 @@
             B = b;
         }
 
-        public static Rgb operator +(Rgb a, Rgb b) => new Rgb(a.R + b.R, a.G + b.G, a.B + b.B);
+        public static Rgb operator +(Rgb a, Rgb b) => new(a.R + b.R, a.G + b.G, a.B + b.B);
 
-        public static Rgb operator *(Rgb a, Rgb b) => new Rgb(a.R * b.R, a.G * b.G, a.B * b.B);
+        public static Rgb operator *(Rgb a, Rgb b) => new(a.R * b.R, a.G * b.G, a.B * b.B);
 
-        public static Rgb operator *(Rgb a, double b) => new Rgb(a.R * b, a.G * b, a.B * b);
+        public static Rgb operator *(Rgb a, double b) => new(a.R * b, a.G * b, a.B * b);
 
         public static Rgb operator *(double a, Rgb b) => b * a;
 
-        public static Rgb operator /(Rgb a, double b) => new Rgb(a.R / b, a.G / b, a.B / b);
+        public static Rgb operator /(Rgb a, double b) => new(a.R / b, a.G / b, a.B / b);
 
         public override string ToString()
         {

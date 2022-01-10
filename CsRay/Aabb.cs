@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay
+﻿namespace CsRay
 {
     /// <summary>Axis Aligned Bounding Box</summary>
     public sealed class Aabb
@@ -34,7 +32,7 @@ namespace CsRay
                 if (a > tMin)
                     tMin = a;
                 if (b < tMax)
-                    tMax= b;
+                    tMax = b;
             }
             if (tMax <= tMin)
                 return false;

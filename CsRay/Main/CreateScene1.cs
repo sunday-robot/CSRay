@@ -1,6 +1,5 @@
 ﻿using CsRay.Hittables;
 using CsRay.Materials;
-using System.Collections.Generic;
 
 namespace CsRay.Main
 {
@@ -10,7 +9,7 @@ namespace CsRay.Main
         /// 地面となる非常に大きな球と、三つの大きな球と、多数の小さな球を生成する
         /// </summary>
         /// <returns></returns>
-        static (List<Hittable>, Camera, Rgb) CreateScene1()
+        static (List<Hittable>, Camera, Rgb?) CreateScene1()
         {
             var hittables = new List<Hittable>();
             {

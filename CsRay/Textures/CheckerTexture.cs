@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CsRay.Textures
+﻿namespace CsRay.Textures
 {
     internal class CheckerTexture : Texture
     {

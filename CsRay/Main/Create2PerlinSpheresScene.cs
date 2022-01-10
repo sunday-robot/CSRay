@@ -1,13 +1,12 @@
 ﻿using CsRay.Hittables;
 using CsRay.Materials;
 using CsRay.Textures;
-using System.Collections.Generic;
 
 namespace CsRay.Main
 {
     public partial class Program
     {
-        static (List<Hittable>, Camera, Rgb) Create2PerlinSpheresScene()
+        static (List<Hittable>, Camera, Rgb?) Create2PerlinSpheresScene()
         {
             var hittables = new List<Hittable>();
             {

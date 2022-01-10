@@ -1,34 +1,15 @@
 ﻿namespace CsRay.Textures
 {
-    // .netではまともに画像ファイルを扱う方法がない。(WPF周りは完全におかしな思想(WEBページのような扱いしか考えていない?)OpenCVを使う以外にない？）
-#if false
     public sealed class ImageTexture : Texture
     {
-        const int _bytesPerPixel = 3;
-
         readonly int _width;
         readonly int _height;
-        readonly int _bytesPerScanline;
         readonly byte[] _data;
-
 
         public ImageTexture(string filePath)
         {
-#if false
-            var componentsPerPixel = _bytesPerPixel;
-
-            _data = stbi_load(
-               filePath, out _width, out _height, out componentsPerPixel, _bytesPerPixel);
-#endif
-            if (_data == null)
-            {
-                //std::cerr << "ERROR: Could not load texture image file '" << filename << "'.\n";
-                _width = _height = 0;
-            }
-
-            _bytesPerScanline = _bytesPerPixel * _width;
+            (_data, _width, _height) = Bmp.Load(filePath);
         }
-
 
         public override Rgb Value(double u, double v, Vec3 p)
         {
@@ -48,9 +29,9 @@
             if (j >= _height) j = _height - 1;
 
             var colorScale = 1.0 / 255.0;
-            var pixelIndex = j * _bytesPerScanline + i * _bytesPerPixel;
+            var pixelIndex = (j * _width + i) * 3;
 
-            return new Rgb(colorScale * _data[pixelIndex], colorScale * _data[pixelIndex + 1], colorScale * _data[pixelIndex + 2]);
+            return new Rgb(colorScale * _data[pixelIndex + 2], colorScale * _data[pixelIndex + 1], colorScale * _data[pixelIndex]);
         }
 
         static double Clamp(double value, double min, double max)
@@ -62,5 +43,4 @@
             return value;
         }
     }
-#endif
 }
