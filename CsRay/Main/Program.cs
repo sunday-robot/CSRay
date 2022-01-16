@@ -38,7 +38,7 @@ namespace CsRay.Main
             //var (hittables, camera, background) = Create2PerlinSpheresScene();
             //var (hittables, camera, background) = CreateRandomScene();
 #if true
-            var world = new BvhNode(hittables, camera.ExposureTime);
+            var world = CreateBvhTree.Create(hittables, camera.ExposureTime);
             world.Print();
 #else
             var world = new HittableList(hittables);

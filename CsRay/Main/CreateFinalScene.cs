@@ -31,7 +31,7 @@ namespace CsRay.Main
                     }
                 }
 
-                objects.Add(new BvhNode(boxes1, 1));
+                objects.Add(CreateBvhTree.Create(boxes1, 1));
 
                 var light = new DiffuseLight(7, 7, 7);
                 objects.Add(new XzRect(123, 147, 423, 412, 554, light));
@@ -63,7 +63,7 @@ namespace CsRay.Main
                     boxes2.Add(new Sphere(new Vec3(Util.Rand(), Util.Rand(), Util.Rand()) * 165, 10, white));
                 }
 
-                objects.Add(new Translate(new RotateY(new BvhNode(boxes2, 1), 15), new Vec3(-100, 270, 395)));
+                objects.Add(new Translate(new RotateY(CreateBvhTree.Create(boxes2, 1), 15), new Vec3(-100, 270, 395)));
             }
 
             Camera camera;

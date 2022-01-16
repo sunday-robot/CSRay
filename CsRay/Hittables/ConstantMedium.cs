@@ -53,6 +53,6 @@ namespace CsRay.Hittables
             return new HitRecord(t, p, _dummyNormal, _phaseFunction);
         }
 
-        public override Aabb BoundingBox(double dt) => _boundary.BoundingBox(dt);
+        public override Aabb BoundingBox(double exposureTime) => _boundary.BoundingBox(exposureTime);
     }
 }

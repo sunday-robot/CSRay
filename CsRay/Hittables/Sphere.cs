@@ -47,7 +47,7 @@
             return new HitRecord(root, p, n, _material, ff, u, v);
         }
 
-        public override Aabb BoundingBox(double dt)
+        public override Aabb BoundingBox(double exposureTime)
         {
             var min = _center - new Vec3(_radius, _radius, _radius);
             var max = _center + new Vec3(_radius, _radius, _radius);

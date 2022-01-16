@@ -25,7 +25,7 @@
             _aabb = new Aabb(new Vec3(k - 0.0001, y0, z0), new Vec3(k + 0.0001, y1, z1));
         }
 
-        public override Aabb BoundingBox(double dt) => _aabb;
+        public override Aabb BoundingBox(double exposureTime) => _aabb;
 
         public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {

@@ -52,10 +52,10 @@
             return new HitRecord(root, p, n, _material, ff, u, v);
         }
 
-        public override Aabb BoundingBox(double dt)
+        public override Aabb BoundingBox(double exposureTime)
         {
-            var c0 = _center - _velocity * dt / 2;
-            var c1 = _center + _velocity * dt / 2;
+            var c0 = _center - _velocity * exposureTime / 2;
+            var c1 = _center + _velocity * exposureTime / 2;
             var v = new Vec3(_radius, _radius, _radius);
             var box0 = new Aabb(c0 - v, c0 + v);
             var box1 = new Aabb(c1 - v, c1 + v);

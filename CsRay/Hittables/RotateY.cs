@@ -80,6 +80,6 @@
             return new HitRecord(tmpRec.T, p, n, tmpRec.Material, ff);
         }
 
-        public override Aabb BoundingBox(double dt) => _bbox;
+        public override Aabb BoundingBox(double exposureTime) => _bbox;
     }
 }

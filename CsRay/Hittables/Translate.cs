@@ -27,9 +27,9 @@
             return new HitRecord(tmpRec.T, p, n, tmpRec.Material, ff);
         }
 
-        public override Aabb BoundingBox(double dt)
+        public override Aabb BoundingBox(double exposureTime)
         {
-            var b = _ptr.BoundingBox(dt);
+            var b = _ptr.BoundingBox(exposureTime);
             return new Aabb(
                 b.Min + _offset,
                 b.Max + _offset);

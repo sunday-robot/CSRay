@@ -35,12 +35,12 @@
             return rec;
         }
 
-        public override Aabb BoundingBox(double dt)
+        public override Aabb BoundingBox(double exposureTime)
         {
-            var box = _objects[0].BoundingBox(dt);
+            var box = _objects[0].BoundingBox(exposureTime);
             for (var i = 1; i < _objects.Length; i++)
             {
-                box = Aabb.SurroundingAabb(box, _objects[i].BoundingBox(dt));
+                box = Aabb.SurroundingAabb(box, _objects[i].BoundingBox(exposureTime));
             }
             return box;
         }
