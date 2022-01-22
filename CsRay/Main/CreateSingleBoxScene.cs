@@ -9,7 +9,7 @@ namespace CsRay.Main
         {
             var objects = new List<Hittable>();
             {
-                var red = new Lambertian(0.8F, 0.2F, 0.2F);
+                var red = new Lambertian(0.8, 0.2, 0.2);
                 var box = new Box(new Vec3(-1, -1, -1), new Vec3(1, 1, 1), red);
                 objects.Add(box);
 
@@ -30,10 +30,10 @@ namespace CsRay.Main
                 var lookFrom = new Vec3(5, 3, 13);
                 var lookAt = new Vec3(0, 0, 0);
                 var vFov = 20;
-                var aperture = 0.1F;
+                var aperture = 0.1;
                 var distanceToFocus = (lookAt - lookFrom).Length;
                 var exposureTime = 1;
-                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16F / 9, aperture, distanceToFocus, exposureTime);
+                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16.0 / 9, aperture, distanceToFocus, exposureTime);
             }
 
 #if false

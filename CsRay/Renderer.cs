@@ -2,7 +2,7 @@
 {
     public class Renderer
     {
-        const float _tMin = 0.001F;
+        const double _tMin = 0.001;
 
         readonly Hittable _world;
         readonly Rgb? _background;
@@ -110,16 +110,16 @@
             if (depth <= 0)
                 return Rgb.Black;
 
-            var rec = _world.Hit(ray, _tMin, float.MaxValue);
+            var rec = _world.Hit(ray, _tMin, double.MaxValue);
             if (rec == null)
             {
                 // どの物体ともヒットしない場合は、指定された背景色あるいは天球の色を返す
                 if (_background == null)
                 {
                     var unitDirection = ray.Direction.Unit;
-                    var t = 0.5F * (unitDirection.Y + 1);
-                    var v1 = new Rgb(1.0F, 1.0F, 1);
-                    var v2 = new Rgb(0.5F, 0.7F, 1);
+                    var t = 0.5 * (unitDirection.Y + 1);
+                    var v1 = new Rgb(1, 1, 1);
+                    var v2 = new Rgb(0.5, 0.7, 1);
                     return (1 - t) * v1 + t * v2;
                 }
                 else

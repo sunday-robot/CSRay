@@ -12,7 +12,7 @@ namespace CsRay.Main
             {
                 var boxes1 = new List<Hittable>();
                 {
-                    var material = new Lambertian(0.48F, 0.83F, 0.53F);
+                    var material = new Lambertian(0.48, 0.83, 0.53);
                     var boxesPerSide = 20;
                     var w = 100;
                     for (int i = 0; i < boxesPerSide; i++)
@@ -38,25 +38,25 @@ namespace CsRay.Main
 
                 var center = new Vec3(400, 400, 200);
                 var velocity = new Vec3(30, 0, 0);
-                var movingSphereMaterial = new Lambertian(0.7F, 0.3F, 0.1F);
+                var movingSphereMaterial = new Lambertian(0.7, 0.3, 0.1);
                 objects.Add(new MovingSphere(center, 50, movingSphereMaterial, velocity));
 
-                objects.Add(new Sphere(new Vec3(260, 150, 45), 50, new Dielectric(1.5F)));
-                objects.Add(new Sphere(new Vec3(0, 150, 145), 50, new Metal(new Rgb(0.8F, 0.8F, 0.9F), 1)));
+                objects.Add(new Sphere(new Vec3(260, 150, 45), 50, new Dielectric(1.5)));
+                objects.Add(new Sphere(new Vec3(0, 150, 145), 50, new Metal(new Rgb(0.8, 0.8, 0.9), 1)));
 
-                var boundary = new Sphere(new Vec3(360, 150, 145), 70, new Dielectric(1.5F));
+                var boundary = new Sphere(new Vec3(360, 150, 145), 70, new Dielectric(1.5));
                 objects.Add(boundary);
-                objects.Add(new ConstantMedium(boundary, 0.2F, new Rgb(0.2F, 0.4F, 0.9F)));
-                boundary = new Sphere(new Vec3(0, 0, 0), 5000, new Dielectric(1.5F));
-                objects.Add(new ConstantMedium(boundary, .0001F, new Rgb(1, 1, 1)));
+                objects.Add(new ConstantMedium(boundary, 0.2, new Rgb(0.2, 0.4, 0.9)));
+                boundary = new Sphere(new Vec3(0, 0, 0), 5000, new Dielectric(1.5));
+                objects.Add(new ConstantMedium(boundary, .0001, new Rgb(1, 1, 1)));
 
                 var emat = new Lambertian(new ImageTexture("../../../earthmap.bmp"));
                 objects.Add(new Sphere(new Vec3(400, 200, 400), 100, emat));
-                var pertext = new NoiseTexture(0.1F);
+                var pertext = new NoiseTexture(0.1);
                 objects.Add(new Sphere(new Vec3(220, 280, 300), 80, new Lambertian(pertext)));
 
                 var boxes2 = new List<Hittable>();
-                var white = new Lambertian(.73F, .73F, .73F);
+                var white = new Lambertian(.73, .73, .73);
                 int ns = 1000;
                 for (int j = 0; j < ns; j++)
                 {
@@ -71,10 +71,10 @@ namespace CsRay.Main
                 var lookFrom = new Vec3(478, 278, -600);
                 var lookAt = new Vec3(278, 278, 0);
                 var vFov = 40;
-                var aperture = 0.1F;
+                var aperture = 0.1;
                 var distanceToFocus = (lookAt - lookFrom).Length;
                 var exposureTime = 1;
-                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16F / 9, aperture, distanceToFocus, exposureTime);
+                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16.0 / 9, aperture, distanceToFocus, exposureTime);
             }
             return (objects, camera, Rgb.Black);
         }

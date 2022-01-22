@@ -11,7 +11,7 @@
             while (true)
             {
                 var p = new Vec3(2 * Rand() - 1, 2 * Rand() - 1, 0);
-                if (p.SquaredLength < 1.0)
+                if (p.SquaredLength < 1)
                     return p;
             }
         }
@@ -27,20 +27,20 @@
             }
         }
 
-        public static float Rand()
+        public static double Rand()
         {
 #if true
-            float r;
+            double r;
             lock (Random)
             {
-                r = Random.NextSingle();
+                r = Random.NextDouble();
             }
             return r;
 #else
-            return Random.NextSingle();
+            return Random.NextDouble();
 #endif
         }
-        public static float Rand(float min, float max) => min + Rand() * (max - min);
+        public static double Rand(double min, double max) => min + Rand() * (max - min);
 
         public static int RandInt() => Random.Next();
 
@@ -60,10 +60,10 @@
                 for (var x = 0; x < width; x++)
                 {
                     var p = pixels[x + y * width];
-                    var p2 = new Vec3(MathF.Sqrt(p.R), MathF.Sqrt(p.G), MathF.Sqrt(p.B));
-                    var r = Math.Min((int)(255 * p2.X + 0.5F), 255);
-                    var g = Math.Min((int)(255 * p2.Y + 0.5F), 255);
-                    var b = Math.Min((int)(255 * p2.Z + 0.5F), 255);
+                    var p2 = new Vec3(Math.Sqrt(p.R), Math.Sqrt(p.G), Math.Sqrt(p.B));
+                    var r = Math.Min((int)(255 * p2.X + 0.5), 255);
+                    var g = Math.Min((int)(255 * p2.Y + 0.5), 255);
+                    var b = Math.Min((int)(255 * p2.Z + 0.5), 255);
                     data[(y * width + x) * 3] = (byte)b;
                     data[(y * width + x) * 3 + 1] = (byte)g;
                     data[(y * width + x) * 3 + 2] = (byte)r;
@@ -72,7 +72,7 @@
             Bmp.Save(filePath, data, width, height);
         }
 
-        public static Rgb RandomRgb(float min, float max)
+        public static Rgb RandomRgb(double min, double max)
         {
             var r = Rand(min, max);
             var g = Rand(min, max);
@@ -82,7 +82,7 @@
 
         public static Rgb RandomRgb() => RandomRgb(0, 1);
 
-        public static Rgb RandomSaturatedRgb(float s, float v)
+        public static Rgb RandomSaturatedRgb(double s, double v)
         {
             var min = (1 - s) * v;
             var range = v - min;

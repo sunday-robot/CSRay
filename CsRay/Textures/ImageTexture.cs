@@ -11,7 +11,7 @@
             (_data, _width, _height) = Bmp.Load(filePath);
         }
 
-        public override Rgb Value(float u, float v, Vec3 p)
+        public override Rgb Value(double u, double v, Vec3 p)
         {
             // If we have no texture data, then return solid cyan as a debugging aid.
             if (_data == null)
@@ -28,13 +28,13 @@
             if (i >= _width) i = _width - 1;
             if (j >= _height) j = _height - 1;
 
-            var colorScale = 1F / 255;
+            var colorScale = 1.0 / 255;
             var pixelIndex = (j * _width + i) * 3;
 
             return new Rgb(colorScale * _data[pixelIndex + 2], colorScale * _data[pixelIndex + 1], colorScale * _data[pixelIndex]);
         }
 
-        static float Clamp(float value, float min, float max)
+        static double Clamp(double value, double min, double max)
         {
             if (value < min)
                 return min;

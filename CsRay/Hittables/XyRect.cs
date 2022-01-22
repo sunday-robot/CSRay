@@ -2,16 +2,16 @@
 {
     public sealed class XyRect : Hittable
     {
-        readonly float _x0;
-        readonly float _y0;
-        readonly float _x1;
-        readonly float _y1;
-        readonly float _k;
+        readonly double _x0;
+        readonly double _y0;
+        readonly double _x1;
+        readonly double _y1;
+        readonly double _k;
         readonly Material _material;
 
         readonly Aabb _aabb;
 
-        public XyRect(float x0, float y0, float x1, float y1, float k, Material material)
+        public XyRect(double x0, double y0, double x1, double y1, double k, Material material)
         {
             _x0 = x0;
             _y0 = y0;
@@ -22,12 +22,12 @@
 
             // The bounding box must have non-zero width in each dimension, so pad the Z
             // dimension a small amount.
-            _aabb = new Aabb(new Vec3(x0, y0, k - 0.0001F), new Vec3(x1, y1, k + 0.0001F));
+            _aabb = new Aabb(new Vec3(x0, y0, k - 0.0001), new Vec3(x1, y1, k + 0.0001));
         }
 
-        public override Aabb BoundingBox(float exposureTime) => _aabb;
+        public override Aabb BoundingBox(double exposureTime) => _aabb;
 
-        public override HitRecord? Hit(Ray ray, float tMin, float tMax)
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {
             var t = (_k - ray.Origin.Z) / ray.Direction.Z;
             if (t < tMin || t > tMax)

@@ -9,7 +9,7 @@
             _hittable = hittable;
         }
 
-        public override HitRecord? Hit(Ray ray, float tMin, float tMax)
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
         {
             if (!_aabb.Hit(ray, tMin, tMax))
                 return null;

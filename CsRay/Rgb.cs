@@ -12,13 +12,13 @@
     {
         public static readonly Rgb Black = new(0, 0, 0);
 
-        public float R { get; }
+        public double R { get; }
 
-        public float G { get; }
+        public double G { get; }
 
-        public float B { get; }
+        public double B { get; }
 
-        public Rgb(float r, float g, float b)
+        public Rgb(double r, double g, double b)
         {
             R = r;
             G = g;
@@ -29,11 +29,11 @@
 
         public static Rgb operator *(Rgb a, Rgb b) => new(a.R * b.R, a.G * b.G, a.B * b.B);
 
-        public static Rgb operator *(Rgb a, float b) => new(a.R * b, a.G * b, a.B * b);
+        public static Rgb operator *(Rgb a, double b) => new(a.R * b, a.G * b, a.B * b);
 
-        public static Rgb operator *(float a, Rgb b) => b * a;
+        public static Rgb operator *(double a, Rgb b) => b * a;
 
-        public static Rgb operator /(Rgb a, float b) => new(a.R / b, a.G / b, a.B / b);
+        public static Rgb operator /(Rgb a, double b) => new(a.R / b, a.G / b, a.B / b);
 
         public override string ToString()
         {

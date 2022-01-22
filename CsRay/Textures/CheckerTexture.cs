@@ -13,9 +13,9 @@
 
         public CheckerTexture(Rgb even, Rgb odd) : this(new SolidColor(even), new SolidColor(odd)) { }
 
-        public override Rgb Value(float u, float v, Vec3 p)
+        public override Rgb Value(double u, double v, Vec3 p)
         {
-            var sines = MathF.Sin(10 * p.X) * MathF.Sin(10 * p.Y) * MathF.Sin(10 * p.Z);
+            var sines = Math.Sin(10 * p.X) * Math.Sin(10 * p.Y) * Math.Sin(10 * p.Z);
             if (sines < 0)
                 return _odd.Value(u, v, p);
             else

@@ -2,12 +2,12 @@
 {
     public static class CreateBvhTree
     {
-        public static Bvh Create(List<Hittable> objects, float exposureTime)
+        public static Bvh Create(List<Hittable> objects, double exposureTime)
         {
             return Create(objects, exposureTime, 0, objects.Count);
         }
 
-        static Bvh Create(List<Hittable> objects, float exposureTime, int start, int end)
+        static Bvh Create(List<Hittable> objects, double exposureTime, int start, int end)
         {
             var object_span = end - start;
 

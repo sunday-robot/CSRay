@@ -15,7 +15,7 @@ namespace CsRay
             _aabb = aabb;
         }
 
-        public sealed override Aabb BoundingBox(float exposureTime) => _aabb;
+        public sealed override Aabb BoundingBox(double exposureTime) => _aabb;
 
         public abstract void Print(string indent = "");
     }

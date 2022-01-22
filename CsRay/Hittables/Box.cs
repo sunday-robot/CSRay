@@ -18,8 +18,8 @@
             _aabb = new Aabb(p0, p1);
         }
 
-        public override Aabb BoundingBox(float exposureTime) => _aabb;
+        public override Aabb BoundingBox(double exposureTime) => _aabb;
 
-        public override HitRecord? Hit(Ray ray, float tMin, float tMax) => _sides.Hit(ray, tMin, tMax);
+        public override HitRecord? Hit(Ray ray, double tMin, double tMax) => _sides.Hit(ray, tMin, tMax);
     }
 }
