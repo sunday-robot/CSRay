@@ -1,13 +1,12 @@
-﻿using CsRay.Hittables;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace CsRay.Main
 {
     public partial class Program
     {
         static readonly Random _rand = new();
-        static double Rand() => _rand.NextDouble();
-        static double Rand2() => _rand.NextDouble() * _rand.NextDouble();
+        static float Rand() => _rand.NextSingle();
+        static float Rand2() => _rand.NextSingle() * _rand.NextSingle();
 
         static void Main()
         {

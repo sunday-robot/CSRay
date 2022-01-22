@@ -17,9 +17,9 @@ namespace CsRay.Materials
 
         public Lambertian(Rgb rgb) : this(new SolidColor(rgb)) { }
 
-        public Lambertian(double r, double g, double b) : this(new Rgb(r, g, b)) { }
+        public Lambertian(float r, float g, float b) : this(new Rgb(r, g, b)) { }
 
-        public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
+        public override Rgb Emitted(float u, float v, Vec3 p) => Rgb.Black;
 
         public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
         {

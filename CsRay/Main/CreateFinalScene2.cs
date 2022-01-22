@@ -60,8 +60,8 @@ namespace CsRay.Main
 #if true
                 {
                     // シーン全体を覆う気体のようなもの
-                    var boundary = new Sphere(new Vec3(0, 0, 0), 5000, new Dielectric(1.5));
-                    objects.Add(new ConstantMedium(boundary, .0001, new Rgb(1, 1, 1)));
+                    var boundary = new Sphere(new Vec3(0, 0, 0), 5000, new Dielectric(1.5F));
+                    objects.Add(new ConstantMedium(boundary, .0001F, new Rgb(1, 1, 1)));
                 }
 #endif
 
@@ -98,11 +98,11 @@ namespace CsRay.Main
             {
                 var lookFrom = new Vec3(956, 556, -1200);
                 var lookAt = new Vec3(278, 278, 0);
-                var vFov = 40.0;
-                var aperture = 0.1;
+                var vFov = 40;
+                var aperture = 0.1F;
                 var distanceToFocus = (lookAt - lookFrom).Length;
-                var exposureTime = 1.0;
-                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0.0, 1.0, 0.0), vFov, 16.0 / 9, aperture, distanceToFocus, exposureTime);
+                var exposureTime = 1;
+                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16F / 9, aperture, distanceToFocus, exposureTime);
             }
 
             return (objects, camera, Rgb.Black);

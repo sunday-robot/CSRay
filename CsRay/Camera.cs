@@ -20,9 +20,9 @@ namespace CsRay
         readonly Vec3 _v;
 
         /// <summary>レンズのサイズ(ボケを決めるもので、小さいほどボケない。0なら全くボケない。)</summary>
-        readonly double _lensRadius;
+        readonly float _lensRadius;
 
-        public double ExposureTime { get; }
+        public float ExposureTime { get; }
 
         /// <param name="lowerLeftCorner"></param>
         /// <param name="horizontal"></param>
@@ -33,7 +33,7 @@ namespace CsRay
         /// <param name="lensRadious"></param>
         /// <param name="exposureTime">露光時間</param>
         public Camera(Vec3 lowerLeftCorner, Vec3 horizontal, Vec3 vertical, Vec3 origin, Vec3 u, Vec3 v,
-            double lensRadious, double exposureTime)
+            float lensRadious, float exposureTime)
         {
             _lowerLeftCorner = lowerLeftCorner;
             _vertical = vertical;
@@ -47,13 +47,13 @@ namespace CsRay
 
         /// <param name="s">横方向の位置(0～1)</param>
         /// <param name="t">縦方向の位置(0～1)</param>
-        public Ray GetRay(double s, double t)
+        public Ray GetRay(float s, float t)
         {
             var rd = _lensRadius * RandomInUnitDisk();
             var offset = _u * rd.X + _v * rd.Y;
             var o = _origin + offset;
             var d = _lowerLeftCorner + s * _horizontal + t * _vertical - o;
-            var time = (Rand() - 0.5) * ExposureTime;
+            var time = (Rand() - 0.5F) * ExposureTime;
             return new Ray(o, d, time);
         }
 
@@ -70,14 +70,14 @@ namespace CsRay
             Vec3 lookFrom,
             Vec3 lookAt,
             Vec3 vup,
-            double verticalFov,
-            double aspect,
-            double aperture,
-            double focusDist,
-            double exposureTime)
+            float verticalFov,
+            float aspect,
+            float aperture,
+            float focusDist,
+            float exposureTime)
         {
-            var theta = verticalFov * Math.PI / 180.0;
-            var halfHeight = Math.Tan(theta / 2.0);
+            var theta = verticalFov * MathF.PI / 180;
+            var halfHeight = MathF.Tan(theta / 2);
             var halfWidth = aspect * halfHeight;
             var w = (lookAt - lookFrom).Unit;
             var u = -vup.Cross(w).Unit;
@@ -87,7 +87,7 @@ namespace CsRay
                     - halfHeight * focusDist * v);
             var horizontal = 2 * halfWidth * focusDist * u;
             var vertical = 2 * halfHeight * focusDist * v;
-            var lensRadius = aperture / 2.0;
+            var lensRadius = aperture / 2.0F;
             return new Camera(lowerLeftCorner, horizontal, vertical, lookFrom, u, v, lensRadius, exposureTime);
         }
     }

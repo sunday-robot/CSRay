@@ -23,11 +23,11 @@ namespace CsRay.Main
             {
                 var lookFrom = new Vec3(26, 3, 6);
                 var lookAt = new Vec3(0, 2, 0);
-                var vFov = 20.0;
-                var aperture = 0.1;
+                var vFov = 20;
+                var aperture = 0.1F;
                 var distanceToFocus = (lookAt - lookFrom).Length;
-                var exposureTime = 1.0;
-                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0.0, 1.0, 0.0), vFov, 16.0 / 9, aperture, distanceToFocus, exposureTime);
+                var exposureTime = 1;
+                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16F / 9, aperture, distanceToFocus, exposureTime);
             }
 
             return (hittables, camera, Rgb.Black);

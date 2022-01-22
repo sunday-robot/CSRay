@@ -4,14 +4,14 @@
     {
         const int _size = 10000;
 
-        readonly double[] _doubleValues;
+        readonly float[] _values;
         readonly int[] _intValues;
         readonly object _lockObject = new();
         int _index = -1;
 
-        public MyRand() => Initialize(new Random(), out _doubleValues, out _intValues);
+        public MyRand() => Initialize(new Random(), out _values, out _intValues);
 
-        public double NextDouble() => _doubleValues[Index()];
+        public float NextSingle() => _values[Index()];
 
         public int Next() => _intValues[Index()];
 
@@ -26,13 +26,13 @@
             }
         }
 
-        static void Initialize(Random rand, out double[] doubleValues, out int[] intValues)
+        static void Initialize(Random rand, out float[] values, out int[] intValues)
         {
-            doubleValues = new double[_size];
+            values = new float[_size];
             intValues = new int[_size];
             for (var i = 0; i < _size; i++)
             {
-                doubleValues[i] = rand.NextDouble();
+                values[i] = rand.NextSingle();
                 intValues[i] = rand.Next();
             }
         }

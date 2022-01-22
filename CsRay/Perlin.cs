@@ -33,14 +33,14 @@
             _permZ = PerlinGeneratePerm();
         }
 
-        double Noise(Vec3 p)
+        float Noise(Vec3 p)
         {
-            var u = p.X - Math.Floor(p.X);
-            var v = p.Y - Math.Floor(p.Y);
-            var w = p.Z - Math.Floor(p.Z);
-            var i = (int)(Math.Floor(p.X));
-            var j = (int)(Math.Floor(p.Y));
-            var k = (int)(Math.Floor(p.Z));
+            var u = p.X - MathF.Floor(p.X);
+            var v = p.Y - MathF.Floor(p.Y);
+            var w = p.Z - MathF.Floor(p.Z);
+            var i = (int)(MathF.Floor(p.X));
+            var j = (int)(MathF.Floor(p.Y));
+            var k = (int)(MathF.Floor(p.Z));
             var c = new Vec3[2, 2, 2];
 
             for (int di = 0; di < 2; di++)
@@ -55,20 +55,20 @@
             return PerlinInterp(c, u, v, w);
         }
 
-        public double Turb(Vec3 p, int depth = 7)
+        public float Turb(Vec3 p, int depth = 7)
         {
-            var accum = 0.0;
+            var accum = 0F;
             var temp_p = p;
-            var weight = 1.0;
+            var weight = 1F;
 
             for (int i = 0; i < depth; i++)
             {
                 accum += weight * Noise(temp_p);
-                weight *= 0.5;
+                weight *= 0.5F;
                 temp_p *= 2;
             }
 
-            return Math.Abs(accum);
+            return MathF.Abs(accum);
         }
 
         static int[] PerlinGeneratePerm()
@@ -94,12 +94,12 @@
             }
         }
 
-        static double PerlinInterp(Vec3[,,] c, double u, double v, double w)
+        static float PerlinInterp(Vec3[,,] c, float u, float v, float w)
         {
             var uu = u * u * (3 - 2 * u);
             var vv = v * v * (3 - 2 * v);
             var ww = w * w * (3 - 2 * w);
-            var accum = 0.0;
+            var accum = 0F;
 
             for (int i = 0; i < 2; i++)
                 for (int j = 0; j < 2; j++)

@@ -8,29 +8,29 @@ namespace CsRay.Hittables
         static readonly Vec3 _dummyNormal = new(0, 0, 0);
         readonly Hittable _boundary;
         readonly Material _phaseFunction;
-        readonly double _negInvDensity;
+        readonly float _negInvDensity;
 
-        public ConstantMedium(Hittable b, double d, Texture a)
+        public ConstantMedium(Hittable b, float d, Texture a)
         {
             _boundary = b;
             _negInvDensity = -1 / d;
             _phaseFunction = new Isotropic(a);
         }
 
-        public ConstantMedium(Hittable b, double d, Rgb c) : this(b, d, new SolidColor(c)) { }
+        public ConstantMedium(Hittable b, float d, Rgb c) : this(b, d, new SolidColor(c)) { }
 
-        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, float tMin, float tMax)
         {
-            double t1;
-            double t2;
+            float t1;
+            float t2;
             {
                 // レイの後方も含めて交点があるかチェックする。
-                var rec1 = _boundary.Hit(ray, double.NegativeInfinity, double.PositiveInfinity);
+                var rec1 = _boundary.Hit(ray, float.NegativeInfinity, float.PositiveInfinity);
                 if (rec1 == null)
                     return null;
 
                 // レイの前方に交点があるかチェックする
-                var rec2 = _boundary.Hit(ray, rec1.T + 0.0001, double.PositiveInfinity);
+                var rec2 = _boundary.Hit(ray, rec1.T + 0.0001F, float.PositiveInfinity);
                 if (rec2 == null)
                     return null;
 
@@ -43,7 +43,7 @@ namespace CsRay.Hittables
 
             var rayLength = ray.Direction.Length;
             var distanceInsideBoundary = (t2 - t1) * rayLength;
-            var hitDistance = _negInvDensity * Math.Log(Util.Rand());
+            var hitDistance = _negInvDensity * MathF.Log(Util.Rand());
 
             if (hitDistance > distanceInsideBoundary)
                 return null;
@@ -53,6 +53,6 @@ namespace CsRay.Hittables
             return new HitRecord(t, p, _dummyNormal, _phaseFunction);
         }
 
-        public override Aabb BoundingBox(double exposureTime) => _boundary.BoundingBox(exposureTime);
+        public override Aabb BoundingBox(float exposureTime) => _boundary.BoundingBox(exposureTime);
     }
 }

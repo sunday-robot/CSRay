@@ -5,7 +5,7 @@
     /// </summary>
     public abstract class Material
     {
-        public abstract Rgb Emitted(double u, double v, Vec3 p);
+        public abstract Rgb Emitted(float u, float v, Vec3 p);
 
         /// <param name="ray">レイ</param>
         /// <returns>衝突点で分散(？)されたレイ</returns>
@@ -20,16 +20,16 @@
         /// <param name="normal">法線ベクトル</param>
         /// <param name="niOverNt">?</param>
         /// <returns>屈折ベクトル(屈折しない場合はnull)</returns>
-        protected static Vec3? Refract(Vec3 v, Vec3 normal, double niOverNt)
+        protected static Vec3? Refract(Vec3 v, Vec3 normal, float niOverNt)
         {
             var uv = v.Unit;
             var dt = uv.Dot(normal);
-            var discriminant = 1.0 - niOverNt * niOverNt * (1.0 - dt * dt);
-            if (discriminant <= 0.0)
+            var discriminant = 1- niOverNt * niOverNt * (1 - dt * dt);
+            if (discriminant <= 0)
             {
                 return null;
             }
-            return niOverNt * (uv - normal * dt) - normal * Math.Sqrt(discriminant);
+            return niOverNt * (uv - normal * dt) - normal * MathF.Sqrt(discriminant);
         }
     }
 }

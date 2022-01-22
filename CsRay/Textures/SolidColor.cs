@@ -9,9 +9,9 @@
             _value = c;
         }
 
-        public SolidColor(double red, double green, double blue) : this(new Rgb(red, green, blue)) { }
+        public SolidColor(float red, float green, float blue) : this(new Rgb(red, green, blue)) { }
 
-        public override Rgb Value(double u, double v, Vec3 p) => _value;
+        public override Rgb Value(float u, float v, Vec3 p) => _value;
 
         public override string ToString()
         {

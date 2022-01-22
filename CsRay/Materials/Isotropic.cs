@@ -13,7 +13,7 @@ namespace CsRay.Materials
 
         public Isotropic(Rgb rgb) : this(new SolidColor(rgb)) { }
 
-        public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
+        public override Rgb Emitted(float u, float v, Vec3 p) => Rgb.Black;
 
         public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
         {

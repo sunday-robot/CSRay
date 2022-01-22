@@ -9,9 +9,9 @@ namespace CsRay.Main
         {
             var objects = new List<Hittable>();
             {
-                var red = new Lambertian(new Rgb(.65, .05, .05));
-                var white = new Lambertian(new Rgb(.73, .73, .73));
-                var green = new Lambertian(new Rgb(.12, .45, .15));
+                var red = new Lambertian(new Rgb(.65F, .05F, .05F));
+                var white = new Lambertian(new Rgb(.73F, .73F, .73F));
+                var green = new Lambertian(new Rgb(.12F, .45F, .15F));
                 var light = new DiffuseLight(new Rgb(15, 15, 15));
 
                 objects.Add(new YzRect(0, 0, 555, 555, 555, green));
@@ -38,11 +38,11 @@ namespace CsRay.Main
             {
                 var lookFrom = new Vec3(278, 278, -800);
                 var lookAt = new Vec3(278, 278, 0);
-                var vFov = 40.0;
-                var aperture = 0.1;
+                var vFov = 40;
+                var aperture = 0.1F;
                 var distanceToFocus = (lookAt - lookFrom).Length;
-                var exposureTime = 1.0;
-                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0.0, 1.0, 0.0), vFov, 16.0 / 9, aperture, distanceToFocus, exposureTime);
+                var exposureTime = 1;
+                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16F / 9, aperture, distanceToFocus, exposureTime);
             }
 
             return (objects, camera, Rgb.Black);

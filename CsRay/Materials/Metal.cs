@@ -11,15 +11,15 @@
         /// <summary>
         /// <=1
         /// </summary>
-        readonly double _fuzz;
+        readonly float _fuzz;
 
-        public Metal(Rgb albedo, double fuzz)
+        public Metal(Rgb albedo, float fuzz)
         {
             _albedo = albedo;
             _fuzz = fuzz;
         }
 
-        public override Rgb Emitted(double u, double v, Vec3 p) => Rgb.Black;
+        public override Rgb Emitted(float u, float v, Vec3 p) => Rgb.Black;
 
         public override (Rgb, Ray)? Scatter(Ray ray, HitRecord rec)
         {

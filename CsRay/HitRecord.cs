@@ -13,15 +13,15 @@
         public Material Material { get; }
 
         /// <summary>レイ軸上の位置</summary>
-        public double T { get; }
+        public float T { get; }
 
-        public double U { get; }
+        public float U { get; }
 
-        public double V { get; }
+        public float V { get; }
 
         public bool FrontFace { get; }
 
-        public HitRecord(double t, Vec3 position, Vec3 normal, Material material, bool frontFace = false, double u = 0, double v = 0)
+        public HitRecord(float t, Vec3 position, Vec3 normal, Material material, bool frontFace = false, float u = 0, float v = 0)
         {
             T = t;
             Position = position;

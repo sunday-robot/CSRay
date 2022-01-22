@@ -18,7 +18,7 @@
             _objects = hittableList.ToArray();
         }
 
-        public override HitRecord? Hit(Ray r, double tMin, double tMax)
+        public override HitRecord? Hit(Ray r, float tMin, float tMax)
         {
             var closestSoFar = tMax;
             HitRecord? rec = null;
@@ -35,7 +35,7 @@
             return rec;
         }
 
-        public override Aabb BoundingBox(double exposureTime)
+        public override Aabb BoundingBox(float exposureTime)
         {
             var box = _objects[0].BoundingBox(exposureTime);
             for (var i = 1; i < _objects.Length; i++)

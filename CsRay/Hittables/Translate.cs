@@ -12,7 +12,7 @@
             _offset = displacement;
         }
 
-        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, float tMin, float tMax)
         {
             var movedR = new Ray(ray.Origin - _offset, ray.Direction, ray.Time);
             var tmpRec = _ptr.Hit(movedR, tMin, tMax);
@@ -27,7 +27,7 @@
             return new HitRecord(tmpRec.T, p, n, tmpRec.Material, ff);
         }
 
-        public override Aabb BoundingBox(double exposureTime)
+        public override Aabb BoundingBox(float exposureTime)
         {
             var b = _ptr.BoundingBox(exposureTime);
             return new Aabb(

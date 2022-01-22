@@ -3,24 +3,24 @@
     public class RotateY : Hittable
     {
         readonly Hittable _ptr;
-        readonly double _sinTheta;
-        readonly double _cosTheta;
+        readonly float _sinTheta;
+        readonly float _cosTheta;
         readonly Aabb _bbox;
 
-        public RotateY(Hittable p, double angle)
+        public RotateY(Hittable p, float angle)
         {
             _ptr = p;
-            var radians = angle / 180 * Math.PI;
-            _sinTheta = Math.Sin(radians);
-            _cosTheta = Math.Cos(radians);
+            var radians = angle / 180 * MathF.PI;
+            _sinTheta = MathF.Sin(radians);
+            _cosTheta = MathF.Cos(radians);
             _bbox = _ptr.BoundingBox(0);
 
-            var minX = double.PositiveInfinity;
-            var minY = double.PositiveInfinity;
-            var minZ = double.PositiveInfinity;
-            var maxX = double.NegativeInfinity;
-            var maxY = double.NegativeInfinity;
-            var maxZ = double.NegativeInfinity;
+            var minX = float.PositiveInfinity;
+            var minY = float.PositiveInfinity;
+            var minZ = float.PositiveInfinity;
+            var maxX = float.NegativeInfinity;
+            var maxY = float.NegativeInfinity;
+            var maxZ = float.NegativeInfinity;
 
             for (int i = 0; i < 2; i++)
             {
@@ -48,7 +48,7 @@
             _bbox = new Aabb(new Vec3(minX, minY, minZ), new Vec3(maxX, maxY, maxZ));
         }
 
-        public override HitRecord? Hit(Ray ray, double tMin, double tMax)
+        public override HitRecord? Hit(Ray ray, float tMin, float tMax)
         {
             var originX = _cosTheta * ray.Origin.X - _sinTheta * ray.Origin.Z;
             var originY = ray.Origin.Y;
@@ -80,6 +80,6 @@
             return new HitRecord(tmpRec.T, p, n, tmpRec.Material, ff);
         }
 
-        public override Aabb BoundingBox(double exposureTime) => _bbox;
+        public override Aabb BoundingBox(float exposureTime) => _bbox;
     }
 }

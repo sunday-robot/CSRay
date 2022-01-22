@@ -13,10 +13,10 @@
             Max = max;
         }
 
-        public bool Hit(Ray ray, double tMin, double tMax)
+        public bool Hit(Ray ray, float tMin, float tMax)
         {
-            double a;
-            double b;
+            float a;
+            float b;
 
             a = (Min.X - ray.Origin.X) / ray.Direction.X;
             b = (Max.X - ray.Origin.X) / ray.Direction.X;
