@@ -40,9 +40,8 @@ namespace CsRay.Main
                 var lookAt = new Vec3(278, 278, 0);
                 var vFov = 40;
                 var aperture = 0.1;
-                var distanceToFocus = (lookAt - lookFrom).Length;
                 var exposureTime = 1;
-                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16.0 / 9, aperture, distanceToFocus, exposureTime);
+                camera = Camera.CreateCamera(lookFrom, lookAt, new Vec3(0, 1, 0), vFov, 16.0 / 9, aperture, exposureTime);
             }
 
             return (objects, camera, Rgb.Black);

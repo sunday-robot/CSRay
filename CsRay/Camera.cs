@@ -73,7 +73,6 @@ namespace CsRay
             double verticalFov,
             double aspect,
             double aperture,
-            double focusDist,
             double exposureTime)
         {
             var theta = verticalFov * Math.PI / 180;
@@ -82,6 +81,7 @@ namespace CsRay
             var w = (lookAt - lookFrom).Unit;
             var u = -vup.Cross(w).Unit;
             var v = -w.Cross(u);
+            var focusDist = (lookAt - lookFrom).Length;
             var lowerLeftCorner = (lookFrom + focusDist * w
                     - halfWidth * focusDist * u
                     - halfHeight * focusDist * v);

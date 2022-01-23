@@ -60,13 +60,12 @@
                 for (var x = 0; x < width; x++)
                 {
                     var p = pixels[x + y * width];
-                    var p2 = new Vec3(Math.Sqrt(p.R), Math.Sqrt(p.G), Math.Sqrt(p.B));
-                    var r = Math.Min((int)(255 * p2.X + 0.5), 255);
-                    var g = Math.Min((int)(255 * p2.Y + 0.5), 255);
-                    var b = Math.Min((int)(255 * p2.Z + 0.5), 255);
-                    data[(y * width + x) * 3] = (byte)b;
-                    data[(y * width + x) * 3 + 1] = (byte)g;
-                    data[(y * width + x) * 3 + 2] = (byte)r;
+                    var r = (byte)(Math.Min(Math.Sqrt(p.R), 1) * 255 + 0.5);
+                    var g = (byte)(Math.Min(Math.Sqrt(p.G), 1) * 255 + 0.5);
+                    var b = (byte)(Math.Min(Math.Sqrt(p.B), 1) * 255 + 0.5);
+                    data[(y * width + x) * 3] = b;
+                    data[(y * width + x) * 3 + 1] = g;
+                    data[(y * width + x) * 3 + 2] = r;
                 }
             }
             Bmp.Save(filePath, data, width, height);
