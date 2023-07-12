@@ -88,9 +88,7 @@
             for (int i = n - 1; i > 0; i--)
             {
                 int target = Util.RandInt() % i;
-                int tmp = p[i];
-                p[i] = p[target];
-                p[target] = tmp;
+                (p[target], p[i]) = (p[i], p[target]);
             }
         }
 
