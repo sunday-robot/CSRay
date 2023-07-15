@@ -53,7 +53,7 @@
 
         static IComparer<Hittable> GetComparerRandomly()
         {
-            var axis = Util.RandInt() % 3;
+            var axis = Random.Shared.Next() % 3;
             return axis switch
             {
                 0 => _boxCompareX,

@@ -8,6 +8,7 @@ namespace CsRay.Main
     {
         static (List<Hittable>, Camera, Rgb) CreateFinalScene()
         {
+            var rnd = new Random();
             var objects = new List<Hittable>();
             {
                 var boxes1 = new List<Hittable>();
@@ -60,7 +61,7 @@ namespace CsRay.Main
                 int ns = 1000;
                 for (int j = 0; j < ns; j++)
                 {
-                    boxes2.Add(new Sphere(new Vec3(Random.Shared.NextDouble(), Random.Shared.NextDouble(), Random.Shared.NextDouble()) * 165, 10, white));
+                    boxes2.Add(new Sphere(new Vec3( rnd.NextDouble(), rnd.NextDouble(), rnd.NextDouble()) * 165, 10, white));
                 }
 
                 objects.Add(new Translate(new RotateY(CreateBvhTree.Create(boxes2, 1), 15), new Vec3(-100, 270, 395)));

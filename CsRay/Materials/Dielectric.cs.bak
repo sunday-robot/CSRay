@@ -34,7 +34,7 @@
             }
             else
             {
-                if (Reflectance(cosTheta, refractionRatio) > Random.Shared.NextDouble())
+                if (Reflectance(cosTheta, refractionRatio) > rnd.NextDouble())
                     direction = Reflect(unitDirection, rec.Normal);
                 else
                 {

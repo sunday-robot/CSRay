@@ -14,7 +14,7 @@
         }
 
         /// <returns>原点を中心とする半径1の球内のランダムな座標</returns>
-        public static Vec3 RandomInUnitSphere()
+        public static Vec3 RandomInUnitSphere(Random r)
         {
             while (true)
             {
@@ -62,13 +62,13 @@
             return new Rgb(r, g, b);
         }
 
-        public static Rgb RandomRgb() => RandomRgb(0, 1);
+        public static Rgb RandomRgb(Random r) => RandomRgb(r, 0, 1);
 
-        public static Rgb RandomSaturatedRgb(double s, double v)
+        public static Rgb RandomSaturatedRgb(Random rnd, double s, double v)
         {
             var min = (1 - s) * v;
             var range = v - min;
-            var h6 = Random.Shared.NextDouble() * 6;
+            var h6 = rnd.NextDouble() * 6;
             if (h6 < 1)
             {
                 var g = h6 * range + min;

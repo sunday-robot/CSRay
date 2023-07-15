@@ -43,7 +43,11 @@ namespace CsRay.Hittables
 
             var rayLength = ray.Direction.Length;
             var distanceInsideBoundary = (t2 - t1) * rayLength;
-            var hitDistance = _negInvDensity * Math.Log(Random.Shared.NextDouble());
+            double hitDistance;
+//            lock (this)
+            {
+                hitDistance = _negInvDensity * Math.Log(Random.Shared.NextDouble());
+            }
 
             if (hitDistance > distanceInsideBoundary)
                 return null;

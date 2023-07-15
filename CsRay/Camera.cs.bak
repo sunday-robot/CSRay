@@ -47,13 +47,13 @@ namespace CsRay
 
         /// <param name="s">横方向の位置(0～1)</param>
         /// <param name="t">縦方向の位置(0～1)</param>
-        public Ray GetRay(double s, double t)
+        public Ray GetRay(Random rnd, double s, double t)
         {
-            var rd = _lensRadius * RandomInUnitDisk();
+            var rd = _lensRadius * RandomInUnitDisk(rnd);
             var offset = _u * rd.X + _v * rd.Y;
             var o = _origin + offset;
             var d = _lowerLeftCorner + s * _horizontal + t * _vertical - o;
-            var time = (Random.Shared.NextDouble() - 0.5) * ExposureTime;
+            var time = (rnd.NextDouble() - 0.5) * ExposureTime;
             return new Ray(o, d, time);
         }
 

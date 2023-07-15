@@ -28,8 +28,8 @@
                     {
                         var u = (x + Random.Shared.NextDouble()) / width;
                         var v = ((height - 1) - y + Random.Shared.NextDouble()) / height;
-                        var r = camera.GetRay(u, v);
-                        var rgb = Color(r, maxDepth);
+                        var r = camera.GetRay(Random.Shared, u, v);
+                        var rgb = Color(Random.Shared, r, maxDepth);
                         rgbSum += rgb;
                     }
                     pixels[y * width + x] = rgbSum / sampleCount;
