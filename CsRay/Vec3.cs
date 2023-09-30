@@ -2,6 +2,8 @@
 {
     public sealed class Vec3
     {
+        public static Vec3 O = new(0, 0, 0);
+
         public double X { get; }
         public double Y { get; }
         public double Z { get; }

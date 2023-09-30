@@ -16,7 +16,7 @@
 
             if (DebugMode)
             {
-                return new HitRecord(0, _dummyVec3, _dummyVec3, _debugMaterial);
+                return new HitRecord(0, Vec3.O, Vec3.O, _debugMaterial);
             }
 
             return _hittable.Hit(ray, tMin, tMax);

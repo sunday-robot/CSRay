@@ -5,7 +5,6 @@ namespace CsRay
     public abstract class Bvh : Hittable
     {
         protected static bool DebugMode { get; set; } = false;
-        protected static readonly Vec3 _dummyVec3 = new(0, 0, 0);
 
         protected readonly Aabb _aabb;
         protected readonly DebugMaterial _debugMaterial = new();
