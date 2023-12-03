@@ -39,10 +39,10 @@
             var parallelOption = new ParallelOptions();
             //parallelOption.MaxDegreeOfParallelism = 4;
 #if true
+            var processedLineCount = 0;
             // Yループを並列処理(4->32.9秒)
             Parallel.For(0, height, parallelOption, y =>
             {
-                Console.WriteLine($"{y}/{height}");
                 for (var x = 0; x < width; x++)
                 {
                     var rgbSum = new Rgb(0, 0, 0);
@@ -56,6 +56,8 @@
                     }
                     pixels[y * width + x] = rgbSum / sampleCount;
                 }
+                processedLineCount++;
+                Console.WriteLine($"{processedLineCount}/{height}");
             });
 #else
             for (var y = 0; y < height; y++)

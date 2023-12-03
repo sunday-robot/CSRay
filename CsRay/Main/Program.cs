@@ -17,11 +17,9 @@ namespace CsRay.Main
             var imageWidth = 320;
             var imageHeight = 180;
 #endif
-#if false
             var overSamplingCount = 100;
-#else
-            var overSamplingCount = 10;
-#endif
+            //var overSamplingCount = 10;
+
             //var (hittables, camera, background) = CreateXyRectScene();
             //var (hittables, camera, background) = CreateSingleBoxScene();
             //var (hittables, camera, background) = CreateCornellSmoke();
